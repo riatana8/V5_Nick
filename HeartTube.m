@@ -108,9 +108,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [X,Y,NVec,Info_Target] = Make_Boundary(ds,L,R_o,R_i,d,centery)
-
+    X= R_o
+    Y=R_i
+    NVec=[1,1];
     %L_tube = 2*L + 2*pi*R;
-
     %Constructs vectors containing pts for straight portion (including ends x=[-L/2,L/2] )
     [xS yS] = make_Flat_Portion(ds,L,centery);
     xS_T = xS(end:-1:1); %x-Values for top of tube
@@ -179,63 +180,63 @@ function [X,Y,NVec,Info_Target] = Make_Boundary(ds,L,R_o,R_i,d,centery)
                         %Nbot(2);   % # pts. in peri. region
                         %Nbot(3)    % # pts. total for bottom region
     
-    %Constructs vectors containing pts for round OUTER portion (not-including ends)
-    half = 1; a=R_o;  b=R_o; ang = pi;
-    [X_o,Y_o] = make_Elliptical_Geometry(a,b,ds,half);
-    xR_o = X_o+L/2;
-    yR_o = Y_o;
-    [xL_o,yL_o] = rotate_Geometry(X_o,Y_o,ang);
-    xL_o = xL_o - L/2;
-
-    
-    %Constructs vectors containing pts for round INNER portion (not-including ends)
-    half = 1;  a=R_i;   b=R_i; ang = pi;
-    [X_i,Y_i] = make_Elliptical_Geometry(a,b,ds,half);
-    xR_i = X_i+L/2;
-    yR_i = Y_i;
-    [xL_i,yL_i] = rotate_Geometry(X_i,Y_i,ang);
-    xL_i = xL_i - L/2;
-
-    
-    %X = [xS_B xR_o xS_T xL_o xS_B xR_i xS_T xL_i];
-    %Y = [yS_B_o yR_o yS_T_o yL_o yS_B_i yR_i yS_T_i yL_i];
-    
-    X = [xP_B xR_o xS_T   xL_o xP_B xR_i xS_T xL_i];
-    Y = [yB_o yR_o yS_T_o yL_o yB_i yR_i yS_T_i yL_i];
-      
-    Nf = length(xS);     %Number of points in flat region of tube on top
-    NR_o = length(xR_o); %Number of points in round side of tube on outside
-    NR_i = length(xR_i); %Number of points in round side of tube on inside
-    
-    N1 = Nbot(1);                  % # of pts. before wave region starts on bottom (still flat portion)
-    N2 = Nbot(2);                  % # of pts. in peristalsis region on bottom (WAVE PART ONLY)
-    N3 = Nbot(3);                  % # of pts. in bottom part of tube (flat+peri+flat) up to rounded part
-    N4 = N3+NR_o;                  % # of pts leading up to straight-top on OUTER of tube
-    N5 = Nf;                       % # of pts on straight section of tube on TOP
-    N6 = N3+ Nf + 2*NR_o;          % # of pts leading up to straight-bottom portion on INSIDE of tube
-    N7 = 2*N3 + Nf + 2*NR_o + NR_i;% # of pts leading up to straight-top portion on INSIDE of tube
-    N8 = N7 + NR_i + Nf;           % # of pts on entire tube (OUTER + INNER)
-    
-    NVec = [N1 N2 N3 N4 N5 N6 N7 N8]
-    
-    %Gives Lagrangian Pt. #'s for Peristaltic Regions (for C++ indexing
-    %starting at 0...)
-    Info_Target(6) = N1;        % FIRST Pt. of Peristaltic Region on OUTER bottom
-    Info_Target(7) = N1+N2-1;   % LAST Pt. of Peristalstic Region on OUTER bottom
-    Info_Target(8) = N6+N1;     % FIRST Pt. of Peristaltic Region on INNER bottom
-    Info_Target(9) = N6+N1+N2-1;% LAST Pt. of Peristaltic Region on INNER bottom
-    
-    
-    %Prints Lagrangian-Pts. for Beginning of Peristaltic Wave
-    %fileID = fopen('Y_Peri_Outer.txt','w');
-    %fprintf(fileID,'%1.16e\n',yP_o_2);
-    %fclose(fileID);
-    %
-    %fileID2 = fopen('Y_Peri_Inner.txt','w');
-    %fprintf(fileID2,'%1.16e\n',yP_i_2);
-    %fclose(fileID2);
-    
-    return
+%     %Constructs vectors containing pts for round OUTER portion (not-including ends)
+%     half = 1; a=R_o;  b=R_o; ang = pi;
+%     [X_o,Y_o] = make_Elliptical_Geometry(a,b,ds,half);
+%     xR_o = X_o+L/2;
+%     yR_o = Y_o;
+%     [xL_o,yL_o] = rotate_Geometry(X_o,Y_o,ang);
+%     xL_o = xL_o - L/2;
+% 
+%     
+%     %Constructs vectors containing pts for round INNER portion (not-including ends)
+%     half = 1;  a=R_i;   b=R_i; ang = pi;
+%     [X_i,Y_i] = make_Elliptical_Geometry(a,b,ds,half);
+%     xR_i = X_i+L/2;
+%     yR_i = Y_i;
+%     [xL_i,yL_i] = rotate_Geometry(X_i,Y_i,ang);
+%     xL_i = xL_i - L/2;
+% 
+%     
+%     %X = [xS_B xR_o xS_T xL_o xS_B xR_i xS_T xL_i];
+%     %Y = [yS_B_o yR_o yS_T_o yL_o yS_B_i yR_i yS_T_i yL_i];
+%     
+%     X = [xP_B xR_o xS_T   xL_o xP_B xR_i xS_T xL_i];
+%     Y = [yB_o yR_o yS_T_o yL_o yB_i yR_i yS_T_i yL_i];
+%       
+%     Nf = length(xS);     %Number of points in flat region of tube on top
+%     NR_o = length(xR_o); %Number of points in round side of tube on outside
+%     NR_i = length(xR_i); %Number of points in round side of tube on inside
+%     
+%     N1 = Nbot(1);                  % # of pts. before wave region starts on bottom (still flat portion)
+%     N2 = Nbot(2);                  % # of pts. in peristalsis region on bottom (WAVE PART ONLY)
+%     N3 = Nbot(3);                  % # of pts. in bottom part of tube (flat+peri+flat) up to rounded part
+%     N4 = N3+NR_o;                  % # of pts leading up to straight-top on OUTER of tube
+%     N5 = Nf;                       % # of pts on straight section of tube on TOP
+%     N6 = N3+ Nf + 2*NR_o;          % # of pts leading up to straight-bottom portion on INSIDE of tube
+%     N7 = 2*N3 + Nf + 2*NR_o + NR_i;% # of pts leading up to straight-top portion on INSIDE of tube
+%     N8 = N7 + NR_i + Nf;           % # of pts on entire tube (OUTER + INNER)
+%     
+%     NVec = [N1 N2 N3 N4 N5 N6 N7 N8]
+%     
+%     %Gives Lagrangian Pt. #'s for Peristaltic Regions (for C++ indexing
+%     %starting at 0...)
+%     Info_Target(6) = N1;        % FIRST Pt. of Peristaltic Region on OUTER bottom
+%     Info_Target(7) = N1+N2-1;   % LAST Pt. of Peristalstic Region on OUTER bottom
+%     Info_Target(8) = N6+N1;     % FIRST Pt. of Peristaltic Region on INNER bottom
+%     Info_Target(9) = N6+N1+N2-1;% LAST Pt. of Peristaltic Region on INNER bottom
+%     
+%     
+%     %Prints Lagrangian-Pts. for Beginning of Peristaltic Wave
+%     %fileID = fopen('Y_Peri_Outer.txt','w');
+%     %fprintf(fileID,'%1.16e\n',yP_o_2);
+%     %fclose(fileID);
+%     %
+%     %fileID2 = fopen('Y_Peri_Inner.txt','w');
+%     %fprintf(fileID2,'%1.16e\n',yP_i_2);
+%     %fclose(fileID2);
+%     
+%     return
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Construction of a Boundary: Makes beginning of sine wave for peristalsis
@@ -351,126 +352,126 @@ A_tilde = 16/w^4*A; % <-- Comes from evaluating wave at x_C
 % Construction of a Boundary: Makes beginning of sine wave for peristalsis
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 
-function [Xnew,Ynew,Nvec,Info_Target] = make_Peristalsis_Wave(ds,d,L,R_o,R_i)
-
-frac = 0.9;     %frac of straight-portion not doing peristalsis
-A = 0.4*d;      %amplitude of peristalsis wave
-
-Lend = -L/2 + frac*L/2; %Last pt. going R->L on straight part on LHS of peri. region
-Rend = L/2 -  frac*L/2; %First pt. going R-> on straight part of RHS of peri. region
-Lnew = Rend;
-
-xL = [-L/2:ds:Lend Lend];
-yL = zeros(1,length(xL));
-xR = [Rend:ds:L/2 L/2];
-yR = zeros(1,length(xR));
-
-n = 1;          %counting for array
-xp = Lend;      %first x-value at (Lend,0) [Note: doesn't store]
-yp = 0;         %first y-value at (Lend,0) [NOTE: doesn't store]
-tol = ds / 10;  %error tolerance for root-finding algorithm
-
-    while xp < Rend; 
-            
-        xn = xp + ds;      %Guess for next x-value
-        
-        xfar = xp + 2.0*ds;  %Far guess for next x-value
-            
-        %initiating guess for bisection-algorithm
-        yn = A*sin(pi*xn/Lnew);
-        errSign = ( ds - sqrt( (xn-xp)^2 + (yn-yp)^2 ) );
-        err = abs(errSign);
-    
-        %Bisection algorithm to make points equally spaced
-        ct = 0;
-        while ( err > tol )
-         
-            if errSign < 0
-                xfar = xn;
-                xn = (xn+xp)/2;
-            elseif errSign > 0
-                xp = xn;
-                xn = (xn+xfar)/2;
-            end
-            
-            if xn<xp
-                fprintf('NOT CONVERGING AT x = %d\n',tprev)
-                break;  
-            end
-            
-            yn = A*sin(pi*xn/Lnew);
-            errSign = ( ds - sqrt( (xn-xp)^2 + (yn-yp)^2 ) );
-            err = abs(errSign);
-            
-            if ct>3
-                fprintf('ct = %d\n',ct);
-                fprintf('xp = %d\n',xp);
-                fprintf('xn = %d\n',xn);
-                fprintf('xfar = %d\n',xfar);
-                fprintf('sqrt() = %d\n',sqrt( (xn-xp)^2 + (yn-yp)^2));
-                
-                fprintf('yn = %d\n',yn);
-                fprintf('yp = %d\n',yp);
-                fprintf('ds = %d\n',ds);
-                fprintf('err = %d\n\n',errSign); 
-                pause();
-            end
-            ct=ct+1;
-        end
-        
-        X(n) = xn;     %Store X-value
-        Y(n) = yn;     %Store Y-value
-        
-        xp= xn;     %Save prev. x-value of bisection
-        yp= yn;     %Save prev. y-value of bisection
-        
-        n = n+1;       %Update counter
-    
-        %plot(xn,yn,'*'); hold on;
-        %pause();
-        %axis([-L/2 L/2 -A A]);
-      
-    end
-        
-    %Length of vector before taking out extra point 
-    N = length(X);
-
-    %Get rid of extra point
-    Xperi = X(1:N-1);
-    Yperi = Y(1:N-1);
-
-    Xnew = [xL Xperi xR];
-    Ynew = [yL Yperi yR];
-    
-    %plot(Xnew,Ynew,'*'); hold on;
-    %axis([-L/2 L/2 -A A]);
-    %pause();
-    
-    Nbef = length(xL);                 % # pts. before peri. region
-    Nperi = length(Xperi);             % # pts. in peri. region
-    Ntot  = Nbef + Nperi + length(xR); % # pts. total for bottom region
-    
-    Nvec = [Nbef Nperi Ntot];
-
-    %Store Info for update_target_points.C file
-    Info_Target(1) = Lnew;  %Stores period
-    Info_Target(2) = R_o;   %Stores Outer Radius
-    Info_Target(3) = R_i;   %Stores Inner Radius
-    Info_Target(4) = A;     %Stores Amplitude of Sine Wave
-    
+% function [Xnew,Ynew,Nvec,Info_Target] = make_Peristalsis_Wave(ds,d,L,R_o,R_i)
+% 
+% frac = 0.9;     %frac of straight-portion not doing peristalsis
+% A = 0.4*d;      %amplitude of peristalsis wave
+% 
+% Lend = -L/2 + frac*L/2; %Last pt. going R->L on straight part on LHS of peri. region
+% Rend = L/2 -  frac*L/2; %First pt. going R-> on straight part of RHS of peri. region
+% Lnew = Rend;
+% 
+% xL = [-L/2:ds:Lend Lend];
+% yL = zeros(1,length(xL));
+% xR = [Rend:ds:L/2 L/2];
+% yR = zeros(1,length(xR));
+% 
+% n = 1;          %counting for array
+% xp = Lend;      %first x-value at (Lend,0) [Note: doesn't store]
+% yp = 0;         %first y-value at (Lend,0) [NOTE: doesn't store]
+% tol = ds / 10;  %error tolerance for root-finding algorithm
+% 
+%     while xp < Rend; 
+%             
+%         xn = xp + ds;      %Guess for next x-value
+%         
+%         xfar = xp + 2.0*ds;  %Far guess for next x-value
+%             
+%         %initiating guess for bisection-algorithm
+%         yn = A*sin(pi*xn/Lnew);
+%         errSign = ( ds - sqrt( (xn-xp)^2 + (yn-yp)^2 ) );
+%         err = abs(errSign);
+%     
+%         %Bisection algorithm to make points equally spaced
+%         ct = 0;
+%         while ( err > tol )
+%          
+%             if errSign < 0
+%                 xfar = xn;
+%                 xn = (xn+xp)/2;
+%             elseif errSign > 0
+%                 xp = xn;
+%                 xn = (xn+xfar)/2;
+%             end
+%             
+%             if xn<xp
+%                 fprintf('NOT CONVERGING AT x = %d\n',tprev)
+%                 break;  
+%             end
+%             
+%             yn = A*sin(pi*xn/Lnew);
+%             errSign = ( ds - sqrt( (xn-xp)^2 + (yn-yp)^2 ) );
+%             err = abs(errSign);
+%             
+%             if ct>3
+%                 fprintf('ct = %d\n',ct);
+%                 fprintf('xp = %d\n',xp);
+%                 fprintf('xn = %d\n',xn);
+%                 fprintf('xfar = %d\n',xfar);
+%                 fprintf('sqrt() = %d\n',sqrt( (xn-xp)^2 + (yn-yp)^2));
+%                 
+%                 fprintf('yn = %d\n',yn);
+%                 fprintf('yp = %d\n',yp);
+%                 fprintf('ds = %d\n',ds);
+%                 fprintf('err = %d\n\n',errSign); 
+%                 pause();
+%             end
+%             ct=ct+1;
+%         end
+%         
+%         X(n) = xn;     %Store X-value
+%         Y(n) = yn;     %Store Y-value
+%         
+%         xp= xn;     %Save prev. x-value of bisection
+%         yp= yn;     %Save prev. y-value of bisection
+%         
+%         n = n+1;       %Update counter
+%     
+%         %plot(xn,yn,'*'); hold on;
+%         %pause();
+%         %axis([-L/2 L/2 -A A]);
+%       
+%     end
+%         
+%     %Length of vector before taking out extra point 
+%     N = length(X);
+% 
+%     %Get rid of extra point
+%     Xperi = X(1:N-1);
+%     Yperi = Y(1:N-1);
+% 
+%     Xnew = [xL Xperi xR];
+%     Ynew = [yL Yperi yR];
+%     
+%     %plot(Xnew,Ynew,'*'); hold on;
+%     %axis([-L/2 L/2 -A A]);
+%     %pause();
+%     
+%     Nbef = length(xL);                 % # pts. before peri. region
+%     Nperi = length(Xperi);             % # pts. in peri. region
+%     Ntot  = Nbef + Nperi + length(xR); % # pts. total for bottom region
+%     
+%     Nvec = [Nbef Nperi Ntot];
+% 
+%     %Store Info for update_target_points.C file
+%     Info_Target(1) = Lnew;  %Stores period
+%     Info_Target(2) = R_o;   %Stores Outer Radius
+%     Info_Target(3) = R_i;   %Stores Inner Radius
+%     Info_Target(4) = A;     %Stores Amplitude of Sine Wave
+%     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Construction of a Boundary: rotation function
 % Note: rotates the (x,y)-pts by an angle, ang.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
  
-function [Xnew,Ynew] = rotate_Geometry(x,y,ang)
-
-for i=1:length(x)
-   Xnew(i) = x(i)*cos(ang) - y(i)*sin(ang);
-   Ynew(i) = x(i)*sin(ang) + y(i)*cos(ang);
-end
-
-    
+% function [Xnew,Ynew] = rotate_Geometry(x,y,ang)
+% 
+% for i=1:length(x)
+%    Xnew(i) = x(i)*cos(ang) - y(i)*sin(ang);
+%    Ynew(i) = x(i)*sin(ang) + y(i)*cos(ang);
+% end
+% 
+%     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Construction of a Boundary: makes flat portion of tube
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -505,88 +506,88 @@ y(1:len2) = centery;
 % Note that the counting starts at the point (0,-b) or the top point.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-function [X_C,Y_C] = make_Elliptical_Geometry(a,b,ds,half)
-
-%a = semi-major (horizontal) axis of ellipse 
-%b = semi-minor (vertical) axis of ellipse
-%ds = lag. point spacing
-
-n = 1;           %counting for array
-Xprev = 0;       %first x-value at (0,-b) [Note: doesn't store]
-Yprev = -b;      %first y-value at (0,-b) [NOTE: doesn't store]
-tprev = -pi/2;   %initial angle 
-tol = ds / 10;   %error tolerance for root-finding algorithm
-maxy = max(a,b); %To be used for guessing next pt.
-
-if half == 1
-    ang_end = pi/2;   %For half a circle
-else
-    ang_end = 3*pi/2; %For full circle
-end
-
-    while tprev < ang_end 
-    
-        tnext = tprev + ds/maxy; %Guess for next angle value
-        
-        if tprev < -pi/4
-            tfar =  0.0;%abs(2*tprev);      %Far guess
-        else
-            tfar = 3*pi/2;
-        end
-            
-        %initiating guess for bisection-algorithm
-        xn = a*cos(tnext);
-        yn = b*sin(tnext);
-        errSign = ( ds - sqrt( (xn-Xprev)^2 + (yn-Yprev)^2 ) );
-        err = abs(errSign);
-    
-        %Bisection algorithm to make points equally spaced
-        while ( err > tol )
-        
-            if errSign < 0
-                tfar = tnext;
-                tnext = (tnext+tprev)/2;
-            elseif errSign > 0
-                tprev = tnext;
-                tnext = (tnext+tfar)/2;
-            end
-            
-            if tnext<tprev
-                fprintf('NOT CONVERGING AT ANGLE %d\n',tprev)
-                break;  
-            end
-            
-            xn = a*cos(tnext);
-            yn = b*sin(tnext);
-            errSign = ( ds - sqrt( (xn-Xprev)^2 + (yn-Yprev)^2 ) );
-            err = abs(errSign);
-        end
-        
-        X(n) = xn;     %Store X-value
-        Y(n) = yn;     %Store Y-value
-        
-        Xprev= xn;     %Save prev. x-value of bisection
-        Yprev= yn;     %Save prev. y-value of bisection
-        tprev = tnext; %Update previous angle
-        
-        n = n+1;       %Update counter
-    
-        %plot(xn,yn,'*'); hold on;
-      
-    end
-        
-    %Length of vector before taking out extra point 
-    N = length(X);
-
-    if half == 1
-        %Get rid of extra point
-        X_C = X(1:N-1);
-        Y_C = Y(1:N-1);
-    else
-        X_C = X;
-        Y_C = Y;
-    end
+% 
+% function [X_C,Y_C] = make_Elliptical_Geometry(a,b,ds,half)
+% 
+% %a = semi-major (horizontal) axis of ellipse 
+% %b = semi-minor (vertical) axis of ellipse
+% %ds = lag. point spacing
+% 
+% n = 1;           %counting for array
+% Xprev = 0;       %first x-value at (0,-b) [Note: doesn't store]
+% Yprev = -b;      %first y-value at (0,-b) [NOTE: doesn't store]
+% tprev = -pi/2;   %initial angle 
+% tol = ds / 10;   %error tolerance for root-finding algorithm
+% maxy = max(a,b); %To be used for guessing next pt.
+% 
+% if half == 1
+%     ang_end = pi/2;   %For half a circle
+% else
+%     ang_end = 3*pi/2; %For full circle
+% end
+% 
+%     while tprev < ang_end 
+%     
+%         tnext = tprev + ds/maxy; %Guess for next angle value
+%         
+%         if tprev < -pi/4
+%             tfar =  0.0;%abs(2*tprev);      %Far guess
+%         else
+%             tfar = 3*pi/2;
+%         end
+%             
+%         %initiating guess for bisection-algorithm
+%         xn = a*cos(tnext);
+%         yn = b*sin(tnext);
+%         errSign = ( ds - sqrt( (xn-Xprev)^2 + (yn-Yprev)^2 ) );
+%         err = abs(errSign);
+%     
+%         %Bisection algorithm to make points equally spaced
+%         while ( err > tol )
+%         
+%             if errSign < 0
+%                 tfar = tnext;
+%                 tnext = (tnext+tprev)/2;
+%             elseif errSign > 0
+%                 tprev = tnext;
+%                 tnext = (tnext+tfar)/2;
+%             end
+%             
+%             if tnext<tprev
+%                 fprintf('NOT CONVERGING AT ANGLE %d\n',tprev)
+%                 break;  
+%             end
+%             
+%             xn = a*cos(tnext);
+%             yn = b*sin(tnext);
+%             errSign = ( ds - sqrt( (xn-Xprev)^2 + (yn-Yprev)^2 ) );
+%             err = abs(errSign);
+%         end
+%         
+%         X(n) = xn;     %Store X-value
+%         Y(n) = yn;     %Store Y-value
+%         
+%         Xprev= xn;     %Save prev. x-value of bisection
+%         Yprev= yn;     %Save prev. y-value of bisection
+%         tprev = tnext; %Update previous angle
+%         
+%         n = n+1;       %Update counter
+%     
+%         %plot(xn,yn,'*'); hold on;
+%       
+%     end
+%         
+%     %Length of vector before taking out extra point 
+%     N = length(X);
+% 
+%     if half == 1
+%         %Get rid of extra point
+%         X_C = X(1:N-1);
+%         Y_C = Y(1:N-1);
+%     else
+%         X_C = X;
+%         Y_C = Y;
+%     end
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % % Computes the Volume of the Heart Tube
