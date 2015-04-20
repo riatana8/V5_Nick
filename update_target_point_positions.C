@@ -73,8 +73,8 @@ void update_target_point_positions(
 	// before and after the peristalsis region of each tube that is 8 points long. length of peristaltic region is 104.
 	//NOTE: -1's are bc counting starts at 0 in arrays in C++ 
 	
-	double x0 = X[31];		      //Left-Pt of Wave at INITIAL POSITION      
-	double x1 = X[113];		      //Right-Pt of Wave at INITIAL POSTITION
+	double x0 = X[8];		      //Left-Pt of Wave at INITIAL POSITION, changed from 31 4/20
+	double x1 = X[19];		      //Right-Pt of Wave at INITIAL POSITION
 	// change these to scale? with X = 616, x0 = X[31], x1 = X[113]
 	double xC = (x0+x1)/2;		  //Center-Pt of Wave at INITIAL POSITION
 	double tt = fmod(current_time,period); //Current time in simulation (remainder of time/period for phases)
@@ -88,8 +88,8 @@ void update_target_point_positions(
 	double g3;		//Interpolation Function between Phase 3 and 4
 	
 	double x;				  //x-Pt specified (rolls over each lag-pt)
-	double w = 0.2;           //Width of Gaussian Wave
-	double A_tilde = 800.0;   //"Fixed" Amplitude for Gaussian Wave
+	double w = 0.01;           //Width of Gaussian Wave
+	double A_tilde = 4.8000e+07;   //"Fixed" Amplitude for Gaussian Wave
 	double R_o = 0.2;	      //OUTER Radius
 	double R_i = 0.1;        //INNER Radius
 
