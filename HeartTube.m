@@ -118,24 +118,24 @@ function [X,Y,NVec,Info_Target] = Make_Boundary(ds,L,R_o,R_i,d,centery)
     yS_T_o = yS - R_o;   %y-Values for OUTER top of tube
     yS_T_i = yS - R_i;   %y-Values for INNER top of tube
    % figure
-    plot(xS, yS_T_o,'r-')
+    plot(xS, yS_T_o,'r--')
     hold on
-    plot(xS, yS_T_i,'r-')
+    plot(xS, yS_T_i,'r-.')
     
     [yS_B yS_B2 Nbot Info_Target] = make_Gaussian_Wave(xS,d,L,R_o,R_i); %Gives Final Position for Wave
-    yP_o_2 = centery - yS_B - R_o;     %y-Values for OUTER bottom of tube for PHASE 2 (right when peri. starts)
-    yP_i_2 = centery +yS_B - R_i;    %y-Values for INNER bottom of tube for PHASE 2
+    yP_o_2 = centery + yS_B - R_o;     %y-Values for OUTER bottom of tube for PHASE 2 (right when peri. starts)
+    yP_i_2 = centery - yS_B - R_i;    %y-Values for INNER bottom of tube for PHASE 2
    % figure
-    plot(xS, yP_o_2)
+    plot(xS, yP_o_2,'b--')
     hold on
-    plot (xS, yP_i_2)
+    plot (xS, yP_i_2,'b-.')
     
-    yP_o_3 = centery - yS_B2 - R_o;    %y-Values for OUTER bottom of tube for PHASE 3 (right when peri. ends)
-    yP_i_3 = centery + yS_B2 - R_i;   %y-Values for INNER bottom of tube for PHASE 3
+    yP_o_3 = centery + yS_B2 - R_o;    %y-Values for OUTER bottom of tube for PHASE 3 (right when peri. ends)
+    yP_i_3 = centery - yS_B2 - R_i;   %y-Values for INNER bottom of tube for PHASE 3
    % figure
-    plot(xS, yP_o_3)
+    plot(xS, yP_o_3,'b--')
     hold on
-    plot(xS, yP_i_3)
+    plot(xS, yP_i_3,'b-.')
     %%%% V5 TS made all entries in yB -0.1 instead of 0 (our model has a center
 % y coord of -0.1 not 0
     yB = zeros(1,length(xS));
@@ -491,8 +491,8 @@ while xVal < L/2
 end
 
 %Makes sure we store the right most end-pt
-len = length(x);
-x(len+1) = L/2;
+%len = length(x);
+%x(len+1) = L/2;
 
 %Stores y-values at 0.
 len2 = length(x);
