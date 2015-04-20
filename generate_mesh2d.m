@@ -140,7 +140,7 @@ dmy = diameter/(Nmarkersy-1);       %space between markers in y-direction
 %% material parameters
 kappa_spring = 2.0e0;               % spring constant (Newton)
 kappa_beam = 1.0e0;                 % beam stiffness constant (Newton m^2)
-kappa_target = kappa_spring*10;        % target point penalty spring constant (Newton)
+kappa_target = kappa_spring*15;        % target point penalty spring constant (Newton)
 Fmag = kappa_spring;                % this is my best guess at a reasonable applied force
 phase = 0;                      %initial phase of the oscillating force, where F=Fmag*phase and phase = (1+sin(2*pi*f*t-pi/2));
 %%
@@ -157,7 +157,7 @@ hold on
 n = 1
 p = 1
 %bottom part
-for i=ceil(Nstraight/2)+1:Nstraight,
+for i=1:ceil(Nstraight/2),
     ybot = centery-R1;
     xbot = -Lt/2+(i-ceil(Nstraight/2)-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
@@ -166,7 +166,7 @@ for i=ceil(Nstraight/2)+1:Nstraight,
 end
 
 %top part
-for i=1:ceil(Nstraight/2),
+for i=ceil(Nstraight/2)+1:Nstraight,
     ytop = centery-R2;
     xtop = -Lt/2+(i-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
