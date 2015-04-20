@@ -250,7 +250,7 @@ function [yS_B yS_B2 NVec Info_Target] = make_Gaussian_Wave(xS,d,L,R_o,R_i)
 % made where this code is returned.
 
 frac = 0.1;     %frac of straight-portion not doing peristalsis
-A = 0.3*d      %amplitude of peristalsis wave
+Am = 0.3*d      %amplitude of peristalsis wave
 w = 0.1*d          %width of wave
 
 Lend = -L/2 + frac*L/2; %Last pt. going R->L on straight part on LHS of peri. region
@@ -301,7 +301,7 @@ while flag == 0
 end
 
 %Get model amplitude from desired amplitude, A:
-A_tilde = get_Amplitude_For_Wave(A,w)
+A_tilde = get_Amplitude_For_Wave(Am,w)
 
 x0 = xS(N_beg_P+1);  x1 = xS(Nw); xC = (x0+x1)/2;
 for i=N_beg_P+1:Nw
@@ -323,7 +323,7 @@ end
     Info_Target(1) = w;      %Stores width
     Info_Target(2) = R_o;    %Stores Outer Radius
     Info_Target(3) = R_i;    %Stores Inner Radius
-    Info_Target(4) = A;      %Stores Amplitude of Sine Wave
+    Info_Target(4) = Am;      %Stores Amplitude of Sine Wave
     Info_Target(5) = A_tilde;%Stores Revised Amplitude for Wave-Function
 
 
@@ -341,10 +341,10 @@ function A_tilde = get_Amplitude_For_Wave(A,w)
 %Note: A = m*A_Tilde + b  from simulations in test_Peri_Shape.m (needs to
 %know width, w.)
 
-m = 1.0e-04;
+m = 1.0e-0;
 b = 0.0;
 
-A_tilde = (A - b)/m;  %for linear regression data <--- Note depends on lots of parameters
+%A_tilde = (A - b)/m;  %for linear regression data <--- Note depends on lots of parameters
 
 A_tilde = 16/w^4*A; % <-- Comes from evaluating wave at x_C
 
