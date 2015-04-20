@@ -160,7 +160,7 @@ for i=1:ceil(Nstraight/2),
     ytop = centery-R2;
     xtop = -Lt/2+(i-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
-    plot(xtop,ytop)
+    %plot(xtop,ytop,'b*')
      n = n+1   
 end
 p = 1
@@ -169,7 +169,7 @@ for i=ceil(Nstraight/2)+1:Nstraight,
     ybot = centery-R1;
     xbot = -Lt/2+(i-ceil(Nstraight/2)-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
-     plot(xbot,ybot)
+    % plot(xbot,ybot,'k*')
      p = p+1
 end
 fclose(vertex_fid);
@@ -187,7 +187,7 @@ for i=0:Nmarkersx-1,
         y = centery-R2-j*dmy;
         x = -Let/2+i*dmx;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
-    plot(x,y)
+    %plot(x,y)
     end
 end
 %fclose(vertex_fid)
@@ -276,30 +276,30 @@ end
 %%%%%%%%%%%%%%%%%%
 % prescribed peristalsis (motion) part
 % Write out the vertex information
-
-%top part
-vertex_fid = fopen(['pperi_top_' num2str(N) '.vertex'], 'w');
-fprintf(vertex_fid, '%d\n', NLap);
-
-for i=Na1p:Na2p,
-    ytop = centery-R2;
-    xtop = -Lt/2+i*ds;
-    fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
-    plot(xtop,ytop,'r*')
-end
-fclose(vertex_fid);
-
-%bottom part
-vertex_fid = fopen(['pperi_bot_' num2str(N) '.vertex'], 'w');
-fprintf(vertex_fid, '%d\n', NLap);
-
-for i=Na1p:Na2p,
-    ybot = centery-R1;
-    xbot = -Lt/2+i*ds;
-    fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
-    plot(xbot,ybot,'r*')
-end
-fclose(vertex_fid);
+% 
+% %top part
+% vertex_fid = fopen(['pperi_top_' num2str(N) '.vertex'], 'w');
+% fprintf(vertex_fid, '%d\n', NLap);
+% 
+% for i=Na1p:Na2p,
+%     ytop = centery-R2;
+%     xtop = -Lt/2+i*ds;
+%     fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
+%     plot(xtop,ytop,'r*')
+% end
+% fclose(vertex_fid);
+% 
+% %bottom part
+% vertex_fid = fopen(['pperi_bot_' num2str(N) '.vertex'], 'w');
+% fprintf(vertex_fid, '%d\n', NLap);
+% 
+% for i=Na1p:Na2p,
+%     ybot = centery-R1;
+%     xbot = -Lt/2+i*ds;
+%     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
+%     plot(xbot,ybot,'r*')
+% end
+% fclose(vertex_fid);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -348,7 +348,7 @@ for i=1:ceil(Ncurve/2)
     yin = centery+R2*sin(theta);
     xin = Lt/2+R2*cos(theta);
     fprintf(vertex_fid, '%1.16e %1.16e\n', xin, yin);
-     plot(xin,yin)
+    % plot(xin,yin)
 end
 
 %outer quarter circle
@@ -357,7 +357,7 @@ for i=ceil(Ncurve/2)+1:ceil(3*Ncurve/4),
     yout = centery+R1*sin(theta);
     xout = Lt/2+R1*cos(theta);
     fprintf(vertex_fid, '%1.16e %1.16e\n', xout, yout);
-    plot(xout, yout)
+    %plot(xout, yout)
 end
 
 %starting points for the right outer straight section
@@ -369,7 +369,7 @@ for i = 1:ceil(NstraightSide/2)
     xRside = xrStart;
     yRside = yrStart +i*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xRside, yRside);
-    plot(xRside,yRside)
+    %plot(xRside,yRside)
 end
 
 
@@ -380,7 +380,7 @@ for i = Ncurve+1:Ncurve+ceil(Nstraight/2),
     yin = centery+R2;
     xin = centerx2-(i-Ncurve-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xin, yin);
-    plot(xin,yin)
+   % plot(xin,yin)
 
 end
 
@@ -392,7 +392,7 @@ for i = 1:ceil(Ncurve/2),
     yin = centery+R2*sin(theta);
     xin = centerx1+R2*cos(theta);
     fprintf(vertex_fid, '%1.16e %1.16e\n', xin, yin);
-    plot(xin, yin)
+    %plot(xin, yin)
 end
 
 %outer quarter circle
@@ -401,7 +401,7 @@ for i = 1:ceil(Ncurve/4)
     yout = centery+R1*sin(theta);
     xout = centerx1+R1*cos(theta);
     fprintf(vertex_fid, '%1.16e %1.16e\n', xout, yout);
-    plot(xout, yout)
+   % plot(xout, yout)
 end
 
 ylStart = yout+ds;
@@ -412,7 +412,7 @@ for i = 1:ceil(NstraightSide/2)
      xLside = xlStart;
      yLside = ylStart + (i)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xLside, yLside);
-    plot(xLside,yLside)
+   % plot(xLside,yLside)
 end
 
 %%Middle Branches
@@ -423,7 +423,7 @@ for i = 1:ceil(NstraightMid/2)
     yin = centeryMid-R2Bot;
     xin = centerx2Mid-(i)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xin, yin);
-    plot(xin,yin)
+   % plot(xin,yin)
 end
 
 %%bottom wall of upper skinny branch
@@ -431,7 +431,7 @@ for i = 1:ceil(NstraightMid/2)
     yin = centeryMid+R2Bot;
     xin = centerx2Mid-(i)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xin, yin);
-    plot(xin,yin)
+   % plot(xin,yin)
 end
 
 %%Left inner semi circle
@@ -441,7 +441,7 @@ for i = 1:ceil(Ncurve/2),
     yin = centeryMid+R2Bot*sin(theta);
     xin = centerx1Mid+R2Bot*cos(theta);
     fprintf(vertex_fid, '%1.16e %1.16e\n', xin, yin);
-    plot(xin, yin)
+   % plot(xin, yin)
 end
 %% right inner semi circle
 for i=1:ceil(Ncurve/2)
@@ -449,7 +449,7 @@ for i=1:ceil(Ncurve/2)
     yin = centeryMid+R2Bot*sin(theta);
     xin = centerx2Mid+R2Bot*cos(theta);
     fprintf(vertex_fid, '%1.16e %1.16e\n', xin, yin);
-    plot(xin,yin)
+   % plot(xin,yin)
 end
 
 
@@ -461,7 +461,7 @@ for i=1:ceil(Ncurve/2)
     yin = centeryTop+R2*sin(theta);
     xin = centerx2Top+R2*cos(theta);
     fprintf(vertex_fid, '%1.16e %1.16e\n', xin, yin);
-    plot(xin,yin)
+   % plot(xin,yin)
 end
 
 
@@ -470,7 +470,7 @@ for i=1:ceil(Ncurve/4),
     yout = centeryTop+R1Top*sin(theta);
     xout = centerx2Top+R1Top*cos(theta);
     fprintf(vertex_fid, '%1.16e %1.16e\n', xout, yout);
-    plot(xout, yout)
+   % plot(xout, yout)
 end
 
 
@@ -480,7 +480,7 @@ for i = Ncurve+ceil(NstraightBranch/2)+1:Ncurve+NstraightBranch,
     yout = centeryTop-R2;
     xout = centerx2Top-(i-Ncurve-ceil(NstraightBranch/2)-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xout, yout);
-    plot(xout, yout)
+   % plot(xout, yout)
     
 end
 %make the walls of the upper
@@ -489,7 +489,7 @@ for i = Ncurve+1:Ncurve+ceil(NstraightBranch/2),
     yin = centeryTop+R2;
     xin = centerx2Top-(i-Ncurve-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xin, yin);
-    plot(xin,yin)
+   % plot(xin,yin)
     
 end
 
@@ -497,7 +497,7 @@ for i = Ncurve+ceil(NstraightBranch/2)+1:Ncurve+NstraightBranch,
     yout = centeryTop+R1Top;
     xout = centerx2Top-(i-Ncurve-ceil(NstraightBranch/2)-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xout, yout);
-    plot(xout, yout)
+   % plot(xout, yout)
 end
 
 
@@ -510,7 +510,7 @@ for i = Ncurve+NstraightBranch+1:Ncurve+NstraightBranch+ceil(Ncurve/2),
     yin = centeryTop+R2*sin(theta);
     xin = centerx1Top+R2*cos(theta);
     fprintf(vertex_fid, '%1.16e %1.16e\n', xin, yin);
-    plot(xin,yin)
+   % plot(xin,yin)
 end
 
 %outer quartercircle
@@ -519,7 +519,7 @@ for i = 1:Ncurve/4
     yout = centeryTop+R1Top*sin(theta);
     xout = centerx1Top+R1Top*cos(theta);
     fprintf(vertex_fid, '%1.16e %1.16e\n', xout, yout);
-    plot(xout, yout)
+   % plot(xout, yout)
 end
 
 

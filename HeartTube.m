@@ -85,20 +85,20 @@
 
 %PLOTS IT
 %plot_it_all(X_tube,Y_tube,x_m,y_m,X_c,Y_c,R_o,L,Nc,Vf,d);    
-figure
-plot(X_tube,Y_tube,'o')
-
-fprintf(' \n\nINFO FOR UPDATE-TARGET-PT-FILE: \n\n');
-fprintf('w (wave-width) = %d\n',Info_Target(1));
-fprintf('R_o (outer radius) = %d\n',Info_Target(2));
-fprintf('R_i (inner radius) = %d\n',Info_Target(3));
-fprintf('A (amplitude) = %d\n',Info_Target(4));
-fprintf('A_tilde (revised amplitude) = %d\n',Info_Target(5));
-fprintf('Outer Bottom: 1st Pt = %d, 2nd Pt = %d\n',Info_Target(6),Info_Target(7));
-fprintf('Inner Bottom: 1st Pt = %d, 2nd Pt = %d\n',Info_Target(8),Info_Target(9));
-fprintf('d (diameter of tube) = %d\n\n\n',d);
-
-
+% figure
+% plot(X_tube,Y_tube,'o')
+% 
+% fprintf(' \n\nINFO FOR UPDATE-TARGET-PT-FILE: \n\n');
+% fprintf('w (wave-width) = %d\n',Info_Target(1));
+% fprintf('R_o (outer radius) = %d\n',Info_Target(2));
+% fprintf('R_i (inner radius) = %d\n',Info_Target(3));
+% fprintf('A (amplitude) = %d\n',Info_Target(4));
+% fprintf('A_tilde (revised amplitude) = %d\n',Info_Target(5));
+% fprintf('Outer Bottom: 1st Pt = %d, 2nd Pt = %d\n',Info_Target(6),Info_Target(7));
+% fprintf('Inner Bottom: 1st Pt = %d, 2nd Pt = %d\n',Info_Target(8),Info_Target(9));
+% fprintf('d (diameter of tube) = %d\n\n\n',d);
+% 
+% 
 
 
     
@@ -116,22 +116,22 @@ function [X,Y,NVec,Info_Target] = Make_Boundary(ds,L,R_o,R_i,d,centery)
     xS_T = xS(end:-1:1); %x-Values for top of tube
     yS_T_o = yS - R_o;   %y-Values for OUTER top of tube
     yS_T_i = yS - R_i;   %y-Values for INNER top of tube
-    figure
-    plot(xS, yS_T_o)
+   % figure
+    plot(xS, yS_T_o,'r-')
     hold on
-    plot(xS, yS_T_i)
+    plot(xS, yS_T_i,'r-')
     
     [yS_B yS_B2 Nbot Info_Target] = make_Gaussian_Wave(xS,d,L,R_o,R_i); %Gives Final Position for Wave
     yP_o_2 = centery - yS_B - R_o;     %y-Values for OUTER bottom of tube for PHASE 2 (right when peri. starts)
     yP_i_2 = centery +yS_B - R_i;    %y-Values for INNER bottom of tube for PHASE 2
-    figure
+   % figure
     plot(xS, yP_o_2)
     hold on
     plot (xS, yP_i_2)
     
     yP_o_3 = centery - yS_B2 - R_o;    %y-Values for OUTER bottom of tube for PHASE 3 (right when peri. ends)
     yP_i_3 = centery + yS_B2 - R_i;   %y-Values for INNER bottom of tube for PHASE 3
-    figure
+   % figure
     plot(xS, yP_o_3)
     hold on
     plot(xS, yP_i_3)
@@ -158,14 +158,14 @@ function [X,Y,NVec,Info_Target] = Make_Boundary(ds,L,R_o,R_i,d,centery)
 %     plot(xS,yP_o_3,'c*'); hold on;
 %     plot(xS,yP_i_3,'g*'); hold on;
     
-    length(xS);
+    length(xS)
     
     %PRINTS BOTTOM-TUBE PTS. TO .txt FILES%
     print_Them_Vertices(xS,'X.txt'); %Prints x-Values (all same regardless top, bottom)
-    print_Them_Vertices(yB_o,'yOut_1.txt');
+    print_Them_Vertices(yS_T_o,'yOut_1.txt'); % changed to yS_T_o from yB_o 4/20
     print_Them_Vertices(yP_o_2,'yOut_2.txt');
     print_Them_Vertices(yP_o_3,'yOut_3.txt');
-    print_Them_Vertices(yB_i,'yIn_1.txt');
+    print_Them_Vertices(yS_T_i,'yIn_1.txt');  % changed to yS_T_i from yB_i 4/20
     print_Them_Vertices(yP_i_2,'yIn_2.txt');
     print_Them_Vertices(yP_i_3,'yIn_3.txt');
     
