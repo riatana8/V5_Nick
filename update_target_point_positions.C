@@ -90,8 +90,8 @@ void update_target_point_positions(
 	double x;				  //x-Pt specified (rolls over each lag-pt)
 	double w = 0.01;           //Width of Gaussian Wave
 	double A_tilde = 4.8000e+07;   //"Fixed" Amplitude for Gaussian Wave
-	double R_o = 0.2;	      //OUTER Radius
-	double R_i = 0.1;        //INNER Radius
+	double R_o = 0.1;	      //OUTER Radius
+	double R_i = 0.2;        //INNER Radius
 
     //
     // Find out the Lagrangian index ranges.
