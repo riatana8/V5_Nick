@@ -155,14 +155,6 @@ fprintf(vertex_fid, '%d\n', Nstraight);
 figure
 hold on
 n = 1
-%top part
-for i=1:ceil(Nstraight/2),
-    ytop = centery-R2;
-    xtop = -Lt/2+(i-1)*ds;
-    fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
-    %plot(xtop,ytop,'b*')
-     n = n+1   
-end
 p = 1
 %bottom part
 for i=ceil(Nstraight/2)+1:Nstraight,
@@ -172,6 +164,17 @@ for i=ceil(Nstraight/2)+1:Nstraight,
     % plot(xbot,ybot,'k*')
      p = p+1
 end
+
+%top part
+for i=1:ceil(Nstraight/2),
+    ytop = centery-R2;
+    xtop = -Lt/2+(i-1)*ds;
+    fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
+    %plot(xtop,ytop,'b*')
+     n = n+1   
+end
+
+
 fclose(vertex_fid);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
