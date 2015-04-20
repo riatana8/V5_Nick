@@ -154,15 +154,15 @@ fprintf(vertex_fid, '%d\n', Nstraight);
 
 figure
 hold on
-n = 1
-p = 1
+n = 0
+p = 0
 
 %top part
 for i=1:ceil(Nstraight/2),
     ytop = centery-R2;
     xtop = -Lt/2+(i-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
-    plot(xtop,ytop,'b*')
+    %plot(xtop,ytop,'b*')
      n = n+1   
 end
 
@@ -171,7 +171,7 @@ for i=ceil(Nstraight/2)+1:Nstraight,
     ybot = centery-R1;
     xbot = -Lt/2+(i-ceil(Nstraight/2)-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
-    plot(xbot,ybot,'k*')
+    %plot(xbot,ybot,'k*')
      p = p+1
 end
 
@@ -546,14 +546,14 @@ for i=1:ceil(Nstraight/2),
     ytop = centery-(R2-(Dp-diameter)/2);
     xtop = -Lt/2+(i-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
-    plot(xtop,ytop)
+    %plot(xtop,ytop)
 end
 
 for i=ceil(Nstraight/2)+1:Nstraight,
     ybot = centery-R1-(Dp-diameter)/2;
     xbot = -Lt/2+(i-ceil(Nstraight/2)-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
-    plot(xbot,ybot)
+    %plot(xbot,ybot)
 end
 
 % make the four side pieces
@@ -561,28 +561,28 @@ for i=Nstraight+1:Nstraight+ceil(Nperi/4),
     y = centery-(R1+(Dp-diameter)/2)+(i-Nstraight-1)*ds;
     x = -Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
-    plot(x,y)
+    %plot(x,y)
 end
 
 for i=Nstraight+ceil(Nperi/4)+1:Nstraight+ceil(Nperi/2),
     y = centery-R2+(i-Nstraight-ceil(Nperi/4)-1)*ds;
     x = -Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
-     plot(x,y)
+    % plot(x,y)
 end
 
 for i=Nstraight+ceil(Nperi/2)+1:Nstraight+ceil(3*Nperi/4),
     y = centery-(R1+(Dp-diameter)/2)+(i-Nstraight-ceil(Nperi/2)-1)*ds;
     x = Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
-     plot(x,y)
+    % plot(x,y)
 end
 
 for i=Nstraight+ceil(3*Nperi/4)+1:Nperitot,
     y = centery-R2+(i-Nstraight-ceil(3*Nperi/4)-1)*ds;
     x = Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
-     plot(x,y)
+    % plot(x,y)
 end
 fclose(vertex_fid);
 
@@ -758,5 +758,5 @@ fclose(target_fid);
 
 %% Integrating nick's code for pumping
 
- HeartTube(diameter, Lt, L, R2,R1, ds, centery, kappa_spring, kappa_beam, kappa_target)
+ HeartTube(diameter, Lt, L, R1,R2, ds, centery, kappa_spring, kappa_beam, kappa_target)
 
