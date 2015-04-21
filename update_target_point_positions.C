@@ -65,10 +65,10 @@ void update_target_point_positions(
 	double t3 = t1;	              //time to reduce gaussian wave
 	
 	
-	int nO_1st = 0;      //First Pt. of Peristaltic Region on OUTER
-	int nO_2nd = 153;  //Last Pt. of Peristaltic Region on OUTER
-	int nI_1st = 154;   //First Pt. of Peristaltic Region on INNER
-	int nI_2nd = 307; //Last Pt. of Peristaltic Region on INNER
+	int nO_1st = 154;      //First Pt. of Peristaltic Region on OUTER
+	int nO_2nd = 307;  //Last Pt. of Peristaltic Region on OUTER
+	int nI_1st = 0;   //First Pt. of Peristaltic Region on INNER
+	int nI_2nd = 153; //Last Pt. of Peristaltic Region on INNER
 	//Need to check these. Note: V5 heart tube vertex files write inner (top) first, then outer (top). Guessing that there is a region
 	// before and after the peristalsis region of each tube that is 8 points long. length of peristaltic region is 104.
 	//NOTE: -1's are bc counting starts at 0 in arrays in C++ 
