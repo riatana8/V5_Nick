@@ -251,7 +251,7 @@ function [yS_B yS_B2 NVec Info_Target] = make_Gaussian_Wave(xS,d,L,R_o,R_i)
 
 frac = 0.1;     %frac of straight-portion not doing peristalsis
 Am = 0.3*d      %amplitude of peristalsis wave
-w = 0.1*d          %width of wave
+w = 1*d          %width of wave
 
 Lend = -L/2 + frac*L/2; %Last pt. going R->L on straight part on LHS of peri. region
 Rend = L/2 -  frac*L/2; %First pt. going R-> on straight part of RHS of peri. region
@@ -301,7 +301,7 @@ while flag == 0
 end
 
 %Get model amplitude from desired amplitude, A:
-A_tilde = get_Amplitude_For_Wave(Am,d)
+A_tilde = get_Amplitude_For_Wave(Am,w)
 
 x0 = xS(N_beg_P+1);  x1 = xS(Nw); xC = (x0+x1)/2;
 for i=N_beg_P+1:Nw

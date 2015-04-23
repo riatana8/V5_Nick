@@ -659,7 +659,7 @@ target_fid = fopen([mesh_name 'tube_' num2str(N) '.target'], 'w');
 fprintf(target_fid, '%d\n', Nstraight); %OLD
 
 
-
+Nstraight
 for i = 0:Nstraight-1,   %OLD
     fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
 end
