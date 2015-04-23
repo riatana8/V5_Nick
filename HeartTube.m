@@ -301,7 +301,7 @@ while flag == 0
 end
 
 %Get model amplitude from desired amplitude, A:
-A_tilde = get_Amplitude_For_Wave(Am,w)
+A_tilde = get_Amplitude_For_Wave(Am,d)
 
 x0 = xS(N_beg_P+1);  x1 = xS(Nw); xC = (x0+x1)/2;
 for i=N_beg_P+1:Nw
@@ -346,6 +346,7 @@ b = 0.0;
 
 %A_tilde = (A - b)/m;  %for linear regression data <--- Note depends on lots of parameters
 
+%A_tilde = 16/w^4*A; % <-- Comes from evaluating wave at x_C OLD LINE
 A_tilde = 16/w^4*A; % <-- Comes from evaluating wave at x_C
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
