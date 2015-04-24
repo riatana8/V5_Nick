@@ -715,24 +715,24 @@ fclose(target_fid);
 % Write out the target point information for the actuator
 
 %top prescribed peristalsis
-target_fid = fopen(['pperi_top_' num2str(N) '.target'], 'w');
-fprintf(target_fid, '%d\n', NLap);
-
-for i = 0:NLap-1,
-    fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
-end
-
-fclose(target_fid);
-
-%bottom prescribed peristalsis
-target_fid = fopen(['pperi_bot_' num2str(N) '.target'], 'w');
-fprintf(target_fid, '%d\n', NLap);
-
-for i = 0:NLap-1,
-    fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
-end
-
-fclose(target_fid);
+% target_fid = fopen(['pperi_top_' num2str(N) '.target'], 'w');
+% fprintf(target_fid, '%d\n', NLap);
+% 
+% for i = 0:NLap-1,
+%     fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
+% end
+% 
+% fclose(target_fid);
+% 
+% %bottom prescribed peristalsis
+% target_fid = fopen(['pperi_bot_' num2str(N) '.target'], 'w');
+% fprintf(target_fid, '%d\n', NLap);
+% 
+% for i = 0:NLap-1,
+%     fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
+% end
+% 
+% fclose(target_fid);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Write out the target point information for the racetrack
