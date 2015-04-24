@@ -160,18 +160,18 @@ p = 0
 %bot part
 for i=1:ceil(Nstraight/2),
     ybot = centery-R1;
-    xbot = -Lt/2+(i-ceil(Nstraight/2)-1)*ds;
+    xbot = -Lt/2+(i-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
-    %plot(xtop,ytop,'b*')
+    plot(xbot,ybot,'b*')
      n = n+1   
 end
 
 %bottom part
 for i=ceil(Nstraight/2)+1:Nstraight,
     ytop = centery-R2;
-    xtop = -Lt/2+(i-1)*ds;
+    xtop = -Lt/2+(i-ceil(Nstraight/2)-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
-    %plot(xbot,ybot,'k*')
+    plot(xtop,ytop,'k*')
      p = p+1
 end
 
