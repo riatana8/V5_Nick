@@ -157,20 +157,20 @@ hold on
 n = 0
 p = 0
 
-%top part
+%bot part
 for i=1:ceil(Nstraight/2),
-    ytop = centery-R2;
-    xtop = -Lt/2+(i-1)*ds;
-    fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
+    ybot = centery-R1;
+    xbot = -Lt/2+(i-ceil(Nstraight/2)-1)*ds;
+    fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
     %plot(xtop,ytop,'b*')
      n = n+1   
 end
 
 %bottom part
 for i=ceil(Nstraight/2)+1:Nstraight,
-    ybot = centery-R1;
-    xbot = -Lt/2+(i-ceil(Nstraight/2)-1)*ds;
-    fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
+    ytop = centery-R2;
+    xtop = -Lt/2+(i-1)*ds;
+    fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
     %plot(xbot,ybot,'k*')
      p = p+1
 end
@@ -656,11 +656,15 @@ fclose(beam_fid);
 % Write out the target point information for the ends of the elastic tube
 target_fid = fopen([mesh_name 'tube_' num2str(N) '.target'], 'w');
 
-fprintf(target_fid, '%d\n', Nstraight); %OLD
+fprintf(target_fid, '%d\n', Nstraight-4*Nend); 
 
 
 Nstraight
-for i = 0:Nstraight-1,   %OLD
+for i = Nend:(Nstraight/2-Nend)-1,   
+    fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
+end
+
+for i = (Nstraight/2+Nend):(Nstraight-Nend)-1,   
     fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
 end
 
