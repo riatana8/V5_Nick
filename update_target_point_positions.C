@@ -15,7 +15,7 @@ void update_target_point_positions(
     static const double pi = 4*atan(1);	
 	
 	//Info for Peristaltic Region stuff
-	static const int numPts = 138;//Number of Points in Bottom of Tube, changed from 155 4/20
+	static const int numPts = 154;//Number of Points in Bottom of Tube, changed from 155 4/20
 	// is this the number of points period or points that move for peristalsis?
 	static double X[numPts];	  //Stores X-Values for Bottom of Tube
 	static double yOut_1[numPts]; //Stores Y-Values for OUTER Region in PHASE 1
@@ -65,10 +65,10 @@ void update_target_point_positions(
 	double t3 = t1;	              //time to reduce gaussian wave
 	
 	
-	int nO_1st = 162;      //First Pt. of Peristaltic Region on OUTER
-	int nO_2nd = 300;  //Last Pt. of Peristaltic Region on OUTER
-	int nI_1st = 8;   //First Pt. of Peristaltic Region on INNER
-	int nI_2nd = 146; //Last Pt. of Peristaltic Region on INNER
+	int nO_1st = 0;      //First Pt. of Peristaltic Region on OUTER
+	int nO_2nd = 153;  //Last Pt. of Peristaltic Region on OUTER
+	int nI_1st = 154;   //First Pt. of Peristaltic Region on INNER
+	int nI_2nd = 307; //Last Pt. of Peristaltic Region on INNER
 	//Need to check these. Note: V5 heart tube vertex files write inner (top) first, then outer (top). Guessing that there is a region
 	// before and after the peristalsis region of each tube that is 8 points long. length of peristaltic region is 104.
 	//NOTE: -1's are bc counting starts at 0 in arrays in C++ 
