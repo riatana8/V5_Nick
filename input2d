@@ -10,9 +10,9 @@ MU = 2.0*PI*FRE*RHO*D*D/(4.0*WO*WO)     // fluid dynamic viscosity (N s / m^2) t
 //
 //
 // grid spacing parameters
-MAX_LEVELS = 5                            // maximum number of levels in locally refined grid
+MAX_LEVELS = 4                            // maximum number of levels in locally refined grid
 REF_RATIO  = 4                            // refinement ratio between levels
-N = 4                                     // actual    number of grid cells on coarsest grid level
+N = 16                                     // actual    number of grid cells on coarsest grid level
 NFINEST = (REF_RATIO^(MAX_LEVELS - 1))*N  // effective number of grid cells on finest   grid level
 DX = (1.0*L)/NFINEST                      // Cartesian mesh width (m)
 //
@@ -91,17 +91,17 @@ IBMethod {                //
                 //
 IBStandardInitializer {                //
    max_levels = MAX_LEVELS                //
-   structure_names = "heart_tube_512", "heart_race_512", "markers_512", "heart_peri_512"                //   
-   heart_tube_512 {                //
+   structure_names = "heart_tube_1024", "heart_race_1024", "markers_1024", "heart_peri_1024"                //   
+   heart_tube_1024 {                //
       level_number = MAX_LEVELS - 1                //
    } //
-   heart_race_512 {                //
+   heart_race_1024 {                //
       level_number = MAX_LEVELS - 1                //
    } //
-   markers_512 {                //
+   markers_1024 {                //
       level_number = MAX_LEVELS - 1                //
    } //
-   heart_peri_512 {                //
+   heart_peri_1024 {                //
       level_number = MAX_LEVELS - 1                //
    } //
 } //
@@ -198,7 +198,7 @@ Main { //
 //
 // visualization dump parameters
    viz_writer = "VisIt"                //
-   viz_dump_interval = 1000        // set to zero to turn off
+   viz_dump_interval = 10000        // set to zero to turn off
    viz_dump_dirname = "viz_IB2d"                //
    visit_number_procs_per_file = 1                //
 //
@@ -207,7 +207,7 @@ Main { //
    restart_write_dirname = "restart_IB2d"                //
 //
 // hierarchy data dump parameters
-   data_dump_interval = 1000         // set to zero to turn off
+   data_dump_interval = 10000         // set to zero to turn off
    data_dump_dirname = "hier_data_IB2d"                //
 //
 // timer dump parameters
