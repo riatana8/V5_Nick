@@ -195,7 +195,7 @@ Main { //
 //
 // visualization dump parameters
    viz_writer = "VisIt"                //
-   viz_dump_interval = 10000        // set to zero to turn off
+   viz_dump_interval = 1000        // set to zero to turn off
    viz_dump_dirname = "viz_IB2d"                //
    visit_number_procs_per_file = 1                //
 //
