@@ -91,11 +91,8 @@ IBMethod {                //
                 //
 IBStandardInitializer {                //
    max_levels = MAX_LEVELS                //
-   structure_names = "heart_tube_1024", "heart_race_1024", "markers_1024"                //   
+   structure_names = "heart_tube_1024", "markers_1024"                //   
    heart_tube_1024 {                //
-      level_number = MAX_LEVELS - 1                //
-   } //
-   heart_race_1024 {                //
       level_number = MAX_LEVELS - 1                //
    } //
    markers_1024 {                //
