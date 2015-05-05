@@ -15,7 +15,7 @@ close all
 L = 1;                              % length of computational domain (m)
 N = 1024;                            % number of Cartesian grid meshwidths at the finest level of the AMR grid
 dx = L/N;                           % Cartesian mesh width (m)
-ds = L/(2.5*N);                       % space between boundary points in straight tube
+ds = L/(2*N);                       % space between boundary points in straight tube
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -139,8 +139,8 @@ dmy = diameter/(Nmarkersy-1);       %space between markers in y-direction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% material parameters
 kappa_spring = 1.0e-1;               % spring constant (Newton)
-kappa_beam = 1.0e-1;                 % beam stiffness constant (Newton m^2)
-kappa_target = 2.0e0*15;        % target point penalty spring constant (Newton)
+kappa_beam = 1.0e-2;                 % beam stiffness constant (Newton m^2)
+kappa_target = 50;        % target point penalty spring constant (Newton)
 Fmag = kappa_spring;                % this is my best guess at a reasonable applied force
 phase = 0;                      %initial phase of the oscillating force, where F=Fmag*phase and phase = (1+sin(2*pi*f*t-pi/2));
 %%
@@ -162,7 +162,7 @@ for i=1:ceil(Nstraight/2),
     ybot = centery-R1;
     xbot = -Lt/2+(i-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
-    plot(xbot,ybot,'b*')
+    %plot(xbot,ybot,'b*')
      n = n+1; 
 end
 
@@ -171,7 +171,7 @@ for i=ceil(Nstraight/2)+1:Nstraight,
     ytop = centery-R2;
     xtop = -Lt/2+(i-ceil(Nstraight/2)-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
-    plot(xtop,ytop,'k*')
+    %plot(xtop,ytop,'k*')
      p = p+1;
 end
 p
@@ -546,14 +546,14 @@ for i=1:ceil(Nstraight/2),
     ytop = centery-(R2-(Dp-diameter)/2);
     xtop = -Lt/2+(i-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
-    plot(xtop,ytop)
+    %plot(xtop,ytop)
 end
 
 for i=ceil(Nstraight/2)+1:Nstraight,
     ybot = centery-R1-(Dp-diameter)/2;
     xbot = -Lt/2+(i-ceil(Nstraight/2)-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
-    plot(xbot,ybot)
+    %plot(xbot,ybot)
 end
 
 % make the four side pieces
@@ -561,28 +561,28 @@ for i=Nstraight+1:Nstraight+ceil(Nperi/4),
     y = centery-(R1+(Dp-diameter)/2)+(i-Nstraight-1)*ds;
     x = -Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
-    plot(x,y)
+    %plot(x,y)
 end
 
 for i=Nstraight+ceil(Nperi/4)+1:Nstraight+ceil(Nperi/2),
     y = centery-R2+(i-Nstraight-ceil(Nperi/4)-1)*ds;
     x = -Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
-    plot(x,y)
+    %plot(x,y)
 end
 
 for i=Nstraight+ceil(Nperi/2)+1:Nstraight+ceil(3*Nperi/4),
     y = centery-(R1+(Dp-diameter)/2)+(i-Nstraight-ceil(Nperi/2)-1)*ds;
     x = Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
-    plot(x,y)
+    %plot(x,y)
 end
 
 for i=Nstraight+ceil(3*Nperi/4)+1:Nperitot,
     y = centery-R2+(i-Nstraight-ceil(3*Nperi/4)-1)*ds;
     x = Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
-    plot(x,y)
+    %plot(x,y)
 end
 fclose(vertex_fid);
 
