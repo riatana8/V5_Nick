@@ -15,7 +15,7 @@ close all
 L = 1;                              % length of computational domain (m)
 N = 1024;                            % number of Cartesian grid meshwidths at the finest level of the AMR grid
 dx = L/N;                           % Cartesian mesh width (m)
-ds = L/(2*N);                       % space between boundary points in straight tube
+ds = L/(2.5*N);                       % space between boundary points in straight tube
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
