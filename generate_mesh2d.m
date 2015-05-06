@@ -16,6 +16,7 @@ L = 1;                              % length of computational domain (m)
 N = 1024;                            % number of Cartesian grid meshwidths at the finest level of the AMR grid
 dx = L/N;                           % Cartesian mesh width (m)
 ds = L/(2*N);                       % space between boundary points in straight tube
+ds2 = L/(4*N);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -27,7 +28,7 @@ Let = 1.34*0.1;                          % Length of elastic tube (m) scaled wrt
 % to use the same number he's using (can output these numbers from his code). 
 Nend = 25;
 % Nend = 10;                           % Number of rigid points on each end of elastic section
-Lt = Let+2*Nend*ds;                 % Length of main tube straight section with Nend rigid points on each end
+Lt = Let+2*Nend*ds2;                 % Length of main tube straight section with Nend rigid points on each end
 
 
 
@@ -49,7 +50,7 @@ R2Bot = 1/2*(diamBot);
 Ls = 2*R2+3*diamBot;			%length of the straight outer side walls
 
 
-Nstraight = 2*ceil(Lt/ds)          % number of points along each shorter straight section (top+bottom)
+Nstraight = 2*ceil(Lt/ds2)          % number of points along each shorter straight section (top+bottom)
 NstraightBranch = 2*ceil(LtTop/ds);	% number of points along longer straight sections
 NstraightSide = 2*ceil(Ls/ds);	%number of points along each straight (vertical)  outer side section
 Ncurve = 2*ceil(pi*R1/ds);          % number of points along a circle of diameter R1. 
@@ -160,7 +161,7 @@ p = 0;
 %bot part
 for i=1:ceil(Nstraight/2),
     ybot = centery-R1;
-    xbot = -Lt/2+(i-1)*ds;
+    xbot = -Lt/2+(i-1)*ds2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
     %plot(xbot,ybot,'b*')
      n = n+1; 
@@ -169,7 +170,7 @@ end
 %bottom part
 for i=ceil(Nstraight/2)+1:Nstraight,
     ytop = centery-R2;
-    xtop = -Lt/2+(i-ceil(Nstraight/2)-1)*ds;
+    xtop = -Lt/2+(i-ceil(Nstraight/2)-1)*ds2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
     %plot(xtop,ytop,'k*')
      p = p+1;
@@ -595,11 +596,11 @@ fprintf(spring_fid, '%d\n', Nstraight-2);
 
 %elastic part of tube
 for i = 0:ceil(Nstraight/2)-2,
-    fprintf(spring_fid, '%d %d %1.16e %1.16e\n', i, i+1, kappa_spring*ds/(ds^2), ds);
+    fprintf(spring_fid, '%d %d %1.16e %1.16e\n', i, i+1, kappa_spring*ds2/(ds2^2), ds2);
 end
 
 for i = ceil(Nstraight/2):Nstraight-2,
-    fprintf(spring_fid, '%d %d %1.16e %1.16e\n', i, i+1, kappa_spring*ds/(ds^2), ds);
+    fprintf(spring_fid, '%d %d %1.16e %1.16e\n', i, i+1, kappa_spring*ds2/(ds2^2), ds2);
 end
 
 fclose(spring_fid);
@@ -642,11 +643,11 @@ fprintf(beam_fid, '%d\n', Nstraight-4);
 
 %elastic part of tube
 for i = 0:ceil(Nstraight/2)-3,
-    fprintf(beam_fid, '%d %d %d %1.16e\n', i, i+1, i+2, kappa_beam*ds/(ds^4));
+    fprintf(beam_fid, '%d %d %d %1.16e\n', i, i+1, i+2, kappa_beam*ds2/(ds2^4));
 end
 
 for i = ceil(Nstraight/2):Nstraight-3,
-    fprintf(beam_fid, '%d %d %d %1.16e\n', i, i+1, i+2, kappa_beam*ds/(ds^4));
+    fprintf(beam_fid, '%d %d %d %1.16e\n', i, i+1, i+2, kappa_beam*ds2/(ds2^4));
 end
 fclose(beam_fid);
 %%
@@ -661,11 +662,11 @@ fprintf(target_fid, '%d\n', Nstraight);
 
 Nstraight
 for i = 0:(Nstraight/2)-1,   
-    fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
+    fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds2/(ds2^2));
 end
 
 for i = (Nstraight/2):(Nstraight)-1,   
-    fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
+    fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds2/(ds2^2));
 end
 
 
@@ -762,5 +763,5 @@ fclose(target_fid);
 
 %% Integrating nick's code for pumping
 
- HeartTube(diameter, Lt, L, R1,R2, ds, centery, kappa_spring, kappa_beam, kappa_target)
+ HeartTube(diameter, Lt, L, R1,R2, ds2, centery, kappa_spring, kappa_beam, kappa_target)
 
