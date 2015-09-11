@@ -59,7 +59,7 @@ Ncurve = 2*ceil(pi*R1/ds);          % number of points along a circle of diamete
 NcurveSmall = 2*ceil(pi*R2Bot/ds)    %number of points along a circle of diameter R2Bot (small)
 
 
-Nrace = (1/2)*0.5*Nstraight+4*Ncurve + (3/2)*NstraightBranch + NstraightSide %+NcurveSmall % number of points making up the racetrack part. More added later in code
+Nrace = ceil((1/2)*0.5*Nstraight+4*Ncurve + (3/2)*NstraightBranch + NstraightSide) %+NcurveSmall % number of points making up the racetrack part. More added later in code
 
 %For Nrace: (1/2)*Nstraight = one straight section of length Lt,
 %Nstraight/2 each
