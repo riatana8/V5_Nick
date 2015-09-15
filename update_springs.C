@@ -12,7 +12,39 @@ update_springs(
 
     static const double pi = 4*atan(1);
     static const double L1 = 1; // length of computational domain (meters)
-    static const int N1 = 512; // number of cartesian grid meshwidths at the finest level of the AMR grid
+    static const int N1 = 1024; // number of cartesian grid meshwidths at the finest level of the AMR grid
+
+	double period = 1.0;          //period of peristalsis
+	double t1 = 0.05*period;	  //time to make gaussian wave
+	double t2= period - 2*t1;	  //time for wave to move
+	double t3 = t1;	              //time to reduce gaussian wave
+	double spring_hard = 0.1;	  // spring stiffness for the gaussian wave
+	double spring_soft = 0.001;	  // spring stiffness for the rest of the tube
+	
+	int nO_1st = 0;      //First Pt. of Peristaltic Region on OUTER
+	int nO_2nd = 598;  //Last Pt. of Peristaltic Region on OUTER
+	int nI_1st = 599;   //First Pt. of Peristaltic Region on INNER
+	int nI_2nd = 1198; //Last Pt. of Peristaltic Region on INNER
+	//Need to check these. Note: V5 heart tube vertex files write inner (top) first, then outer (top). Guessing that there is a region
+	// before and after the peristalsis region of each tube that is 8 points long. length of peristaltic region is 104.
+	//NOTE: -1's are bc counting starts at 0 in arrays in C++ 
+	
+	double x0 = X[31];		      //Left-Pt of Wave at INITIAL POSITION, changed from 31 4/20
+	double x1 = X[91];		      //Right-Pt of Wave at INITIAL POSITION
+	// change these to scale? with X = 616, x0 = X[31], x1 = X[113]
+	double xC = (x0+x1)/2;		  //Center-Pt of Wave at INITIAL POSITION
+	double tt = fmod(current_time,period); //Current time in simulation (remainder of time/period for phases)
+	double c = (-2*xC)/t2;        //Wave-Speed (minus sign bc xC is negative)
+	double tp = c*(tt-t1);        // Wave-Speed * time
+	double xCn = xC + tp;		  //Center-Pt of Wave at time, t
+	double x0n = x0 + tp;		  //Left-Pt of Wave at time, t
+	double x1n = x1 + tp;		  //Right-Pt of Wave at time, t
+	
+	double g1;		//Interpolation Function between Phase 1 and 2
+	double g3;		//Interpolation Function between Phase 3 and 4
+	
+	double x;				  //x-Pt specified (rolls over each lag-pt)
+
 
     // Find out the Lagrangian index ranges.
     const std::pair<int,int>& plate2d_left_lag_idxs = l_data_manager->getLagrangianStructureIndexRange(0, finest_ln);
@@ -48,10 +80,45 @@ update_springs(
         const int lag_idx = node_idx->getLagrangianIndex();
 	//there are two ways to get resting lenghts depending on the IBAMR version. Both are copied here.
 	//std::vector<double>& resting_length = spring_spec->getRestingLengths();
-	double resting_length = spring_spec->getParameters()[0][1];
+	//double resting_length = spring_spec->getParameters()[0][1];
     
 	//Note that you can also getStiffnesses
 	double spring_stiffness = spring_spec->getParameters()[0][0];
+	
+	if (tt<=t1) {
+	
+		if ((lag_idx>=x0n) && (lag_idx<=x1n)) {
+		
+			spring_stiffness = spring_hard;
+		
+		} else {
+			
+			spring_stiffness = spring_soft;
+			
+		}
+	} else if ( (tt>t1) && (tt<=(t1+t2)) ) {
+	
+		if ((lag_idx>=x0n) && (lag_idx<=x1n)) {
+		
+			spring_stiffness = spring_hard;
+		
+		} else {
+			
+			spring_stiffness = spring_soft;
+			
+		}
+	} else if ( (tt > (t1+t2)) && ( tt <= (t1+t2+t3)) ) {
+	
+		if ((lag_idx>=x0n) && (lag_idx<=x1n)) {
+		
+			spring_stiffness = spring_hard;
+		
+		} else {
+			
+			spring_stiffness = spring_soft;
+			
+		}
+	}
 		//Note that you can also getStiffnesses
 	  	// if (plate2d_left_lag_idxs.first <= lag_idx && lag_idx < plate2d_left_lag_idxs.second)
 		// 	{
