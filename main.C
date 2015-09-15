@@ -38,6 +38,19 @@ output_data(
     const int iteration_num,
     const double loop_time,
     const string& data_dump_dirname);
+    
+inline double
+spring(
+    double R,
+    const double* params,
+    int lag_mastr_idx,
+    int lag_slave_idx)
+{
+    const double F = params[0];
+    const double phase_fun = params[1];
+    return F*phase_fun;
+}// frequency_spring_force
+
 
 /*******************************************************************************
  * For each run, the input filename and restart information (if needed) must   *
