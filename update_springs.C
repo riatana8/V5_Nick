@@ -105,33 +105,33 @@ update_springs(
 	
 		if ((lag_idx>=x0n) && (lag_idx<=x1n)) {
 		
-			spring_stiffness = spring_hard;
+			spring_stiffness[lag_idx] = spring_hard;
 		
 		} else {
 			
-			spring_stiffness = spring_soft;
+			spring_stiffness[lag_idx] = spring_soft;
 			
 		}
 	} else if ( (tt>t1) && (tt<=(t1+t2)) ) {
 	
 		if ((lag_idx>=x0n) && (lag_idx<=x1n)) {
 		
-			spring_stiffness = spring_hard;
+			spring_stiffness[lag_idx] = spring_hard;
 		
 		} else {
 			
-			spring_stiffness = spring_soft;
+			spring_stiffness[lag_idx] = spring_soft;
 			
 		}
 	} else if ( (tt > (t1+t2)) && ( tt <= (t1+t2+t3)) ) {
 	
 		if ((lag_idx>=x0n) && (lag_idx<=x1n)) {
 		
-			spring_stiffness = spring_hard;
+			spring_stiffness[lag_idx] = spring_hard;
 		
 		} else {
 			
-			spring_stiffness = spring_soft;
+			spring_stiffness[lag_idx] = spring_soft;
 			
 		}
 	}
