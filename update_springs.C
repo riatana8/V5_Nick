@@ -7,6 +7,7 @@ update_springs(
     LDataManager* const l_data_manager,
     const double current_time,
     const double dt)
+
 {
     const int finest_ln = hierarchy->getFinestLevelNumber();
 

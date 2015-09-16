@@ -40,7 +40,7 @@ output_data(
     const string& data_dump_dirname);
     
 inline double
-spring(
+springs(
     double R,
     const double* params,
     int lag_mastr_idx,
