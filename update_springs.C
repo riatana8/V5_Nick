@@ -19,7 +19,7 @@ update_springs(
 	// is this the number of points period or points that move for peristalsis?
 	static double X[numPts];	  //Stores X-Values for Bottom of Tube
 
-	FILE *fileID1
+	FILE *fileID1;
 	fileID1 = fopen("X.txt", "r");
 	for(int i=0; i<numPts; i++){
 		fscanf(fileID1,"%lf\n",&X[i]);
@@ -103,13 +103,13 @@ update_springs(
 	
 	if (tt<=t1) {
 	
-		if ((lag_idx>=x0n) && (lag_idx<=x1n)) {
+		if ((lag_idx>=x0) && (lag_idx<=x1)) {
 		
-			spring_stiffness[lag_idx] = spring_hard;
+			spring_stiffness[lag_idx] = spring_spec->spring_hard;
 		
 		} else {
 			
-			spring_stiffness[lag_idx] = spring_soft;
+			spring_stiffness[lag_idx] = spring_spec->spring_soft;
 			
 		}
 	} else if ( (tt>t1) && (tt<=(t1+t2)) ) {
