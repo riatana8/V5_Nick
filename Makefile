@@ -1,6 +1,8 @@
 ######################################################################
 ## Here specify the location of the IBAMR source and the location
 ## where IBAMR has been built.
+## IBAMR_SRC_DIR = $(HOME)/sfw/ibamr/IBAMR
+## IBAMR_BUILD_DIR = $(HOME)/sfw/ibamr/ibamr-objs-opt
 IBAMR_SRC_DIR = /nas02/apps/ibamr-3803/OFED-1.5.2/IBAMR2
 IBAMR_BUILD_DIR = /nas02/apps/ibamr-3803/ibamr-objs-opt
 
@@ -10,8 +12,8 @@ include $(IBAMR_BUILD_DIR)/config/make.inc
 
 ######################################################################
 ## Build the IB tester application.
-SOURCES = main.C update_target_point_positions.C update_target_point_positions.h  
-OBJS = main.o update_target_point_positions.o 
+SOURCES = main.C update_target_point_positions.C update_target_point_positions.h update_springs.C update_springs.h
+OBJS = main.o update_target_point_positions.o update_springs.o
 
 default:
 	@echo "make one of: main2d, main3d"
