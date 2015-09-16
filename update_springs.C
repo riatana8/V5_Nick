@@ -108,7 +108,7 @@ update_springs(
 		
 			spring_stiffness = spring_hard;
 		
-		} else {
+		} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
 			
 			spring_stiffness = spring_soft;
 			
@@ -119,7 +119,7 @@ update_springs(
 		
 			spring_stiffness = spring_hard;
 		
-		} else {
+		} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
 			
 			spring_stiffness = spring_soft;
 			
@@ -130,7 +130,7 @@ update_springs(
 		
 			spring_stiffness = spring_hard;
 		
-		} else {
+		} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
 			
 			spring_stiffness = spring_soft;
 			
