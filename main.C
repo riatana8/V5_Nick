@@ -200,7 +200,7 @@ main(
             dt = time_integrator->getMaximumTimeStepSize();
             LDataManager* l_data_manager = ib_method_ops->getLDataManager();
             update_target_point_positions(patch_hierarchy, l_data_manager, loop_time, dt);
-			update_springs(patch_hierarchy, l_data_manager, loop_time, dt);
+	    update_springs(patch_hierarchy, l_data_manager, loop_time, dt);
             time_integrator->advanceHierarchy(dt);
             loop_time += dt;
 
