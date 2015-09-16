@@ -106,7 +106,7 @@ update_springs(
 	
 		if ((lag_idx>=x0) && (lag_idx<=x1)) {
 		
-			spring_stiffness[0] = spring_hard;
+			spring_stiffness[0][0] = spring_hard;
 		
 		} else {
 			
