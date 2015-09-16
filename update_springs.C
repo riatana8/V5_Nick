@@ -14,6 +14,21 @@ update_springs(
     static const double pi = 4*atan(1);
     static const double L1 = 1; // length of computational domain (meters)
     static const int N1 = 1024; // number of cartesian grid meshwidths at the finest level of the AMR grid
+	
+	static const int numPts = 599;//Number of Points in Bottom of Tube, changed from 155 4/20
+	// is this the number of points period or points that move for peristalsis?
+	static double X[numPts];	  //Stores X-Values for Bottom of Tube
+
+	FILE *fileID1
+	fileID1 = fopen("X.txt", "r");
+	for(int i=0; i<numPts; i++){
+		fscanf(fileID1,"%lf\n",&X[i]);
+	}
+	
+	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+	
+    fclose(fileID1);
+
 
 	double period = 1.0;          //period of peristalsis
 	double t1 = 0.05*period;	  //time to make gaussian wave
