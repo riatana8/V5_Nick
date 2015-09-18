@@ -4,7 +4,7 @@ L = 1.0                                   // length of the computational (fluid)
 D = 0.1									//diameter of tube (m)
 FRE = 2.0									//pumping frequency (Hz)
 RHO = 1000.0   						//fluid mass density (kg/m^3)
-WO = 10.0								// desired Womersley number
+WO = 1.0								// desired Womersley number
 PI = 4.0*atan(1);						//calculate PI
 MU = 2.0*PI*FRE*RHO*D*D/(4.0*WO*WO)     // fluid dynamic viscosity (N s / m^2) to yield desired Wo
 //
@@ -19,7 +19,7 @@ DX = (1.0*L)/NFINEST                      // Cartesian mesh width (m)
 // solver parameters
 DELTA_FUNCTION      = "IB_4"              //
 START_TIME          = 0.0e0               // initial simulation time
-END_TIME            = 5.0               // final simulation time
+END_TIME            = 10.0               // final simulation time
 GROW_DT             = 2.0e0               // growth factor for timesteps
 NUM_CYCLES          = 1                   // number of cycles of fixed-point iteration
 CONVECTIVE_OP_TYPE  = "PPM"               // convective differencing discretization type
@@ -99,7 +99,7 @@ IBStandardInitializer {                //
       level_number = MAX_LEVELS - 1		//
    } 	//
    heart_peri_1024 {		//
-      level_number = MAX_LEVELS -1		//
+      level_number = MAX_LEVELS - 1		//
    }  		   //
    markers_1024 {                //
       level_number = MAX_LEVELS - 1                //
@@ -198,7 +198,7 @@ Main { //
 //
 // visualization dump parameters
    viz_writer = "VisIt"                //
-   viz_dump_interval = 5000        // set to zero to turn off
+   viz_dump_interval = 1000        // set to zero to turn off
    viz_dump_dirname = "viz_IB2d"                //
    visit_number_procs_per_file = 1                //
 //
