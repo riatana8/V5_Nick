@@ -2,7 +2,7 @@
 //
 L = 1.0                                   // length of the computational (fluid) domain (m)
 D = 0.1									//diameter of tube (m)
-FRE = 1.0									//pumping frequency (Hz)
+FRE = 2.0									//pumping frequency (Hz)
 RHO = 1000.0   						//fluid mass density (kg/m^3)
 WO = 10.0								// desired Womersley number
 PI = 4.0*atan(1);						//calculate PI
@@ -26,7 +26,7 @@ CONVECTIVE_OP_TYPE  = "PPM"               // convective differencing discretizat
 CONVECTIVE_FORM     = "ADVECTIVE"         // how to compute the convective terms
 NORMALIZE_PRESSURE  = TRUE                // whether to explicitly force the pressure to have mean zero
 CFL_MAX             = 0.3                 // maximum CFL number
-DT = 1.0e-6                               // timestep duration (s)
+DT = 1.0e-5                               // timestep duration (s)
 ERROR_ON_DT_CHANGE  = TRUE                // whether to emit an error message if the time step size changes
 VORTICITY_TAGGING   = TRUE                // whether to tag cells for refinement based on vorticity thresholds
 TAG_BUFFER          = 2                   // size of tag buffer used by grid generation algorithm
@@ -91,13 +91,16 @@ IBMethod {                //
                 //
 IBStandardInitializer {                //
    max_levels = MAX_LEVELS                //
-   structure_names = "heart_tube_1024", "heart_race_1024", "markers_1024"                //   
+   structure_names = "heart_tube_1024", "heart_race_1024", "heart_peri_1024", "markers_1024"                //   
    heart_tube_1024 {                //
       level_number = MAX_LEVELS - 1                //
    } //
    heart_race_1024 {		//
       level_number = MAX_LEVELS - 1		//
    } 	//
+   heart_peri_1024 {		//
+      level_number = MAX_LEVELS -1		//
+   }  		   //
    markers_1024 {                //
       level_number = MAX_LEVELS - 1                //
    } //
@@ -195,7 +198,7 @@ Main { //
 //
 // visualization dump parameters
    viz_writer = "VisIt"                //
-   viz_dump_interval = 10000        // set to zero to turn off
+   viz_dump_interval = 5000        // set to zero to turn off
    viz_dump_dirname = "viz_IB2d"                //
    visit_number_procs_per_file = 1                //
 //
@@ -204,7 +207,7 @@ Main { //
    restart_write_dirname = "restart_IB2d"                //
 //
 // hierarchy data dump parameters
-   data_dump_interval = 10000         // set to zero to turn off
+   data_dump_interval = 1000         // set to zero to turn off
    data_dump_dirname = "hier_data_IB2d"                //
 //
 // timer dump parameters
