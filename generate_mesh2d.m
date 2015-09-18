@@ -139,8 +139,8 @@ dmy = diameter/(Nmarkersy-1);       %space between markers in y-direction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% material parameters
-kappa_spring = 1.0e-1;               % spring constant (Newton)
-kappa_beam = 1.0e-2;                 % beam stiffness constant (Newton m^2)
+kappa_spring = 1.0;               % spring constant (Newton)
+kappa_beam = 1.0e-1;                 % beam stiffness constant (Newton m^2)
 kappa_target = 50;        % target point penalty spring constant (Newton)
 Fmag = kappa_spring;                % this is my best guess at a reasonable applied force
 phase = 0;                      %initial phase of the oscillating force, where F=Fmag*phase and phase = (1+sin(2*pi*f*t-pi/2));
@@ -545,14 +545,14 @@ vertex_fid = fopen([mesh_name 'peri_' num2str(N) '.vertex'], 'w');
 fprintf(vertex_fid, '%d\n', Nperitot);
 
 % make the top and bottom of the pericardium
-for i=1:ceil(Nstraight/4),
+for i=1:ceil(Nstraight/2),
     ytop = centery-(R2-(Dp-diameter)/2);
     xtop = -Lt/2+(i-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
     plot(xtop,ytop)
 end
 
-for i=ceil(Nstraight/4)+1:ceil(Nstraight/2),
+for i=ceil(Nstraight/2)+1:ceil(Nstraight),
     ybot = centery-R1-(Dp-diameter)/2;
     xbot = -Lt/2+(i-ceil(Nstraight/4)-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);

@@ -30,7 +30,7 @@ update_springs(
     fclose(fileID1);
 
 
-	double period = 1.0;          //period of peristalsis
+	double period = 0.5;          //period of peristalsis
 	double t1 = 0.05*period;	  //time to make gaussian wave
 	double t2= period - 2*t1;	  //time for wave to move
 	double t3 = t1;	              //time to reduce gaussian wave

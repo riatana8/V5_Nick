@@ -250,7 +250,7 @@ function [yS_B yS_B2 NVec Info_Target] = make_Gaussian_Wave(xS,d,L,R_o,R_i)
 % made where this code is returned.
 
 frac = 0.1;     %frac of straight-portion not doing peristalsis
-Am = 0.3*d      %amplitude of peristalsis wave
+Am = 0.5*d      %amplitude of peristalsis wave
 w = 0.15*d          %width of wave
 
 Lend = -L/2 + frac*L/2; %Last pt. going R->L on straight part on LHS of peri. region

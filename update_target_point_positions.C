@@ -59,7 +59,7 @@ void update_target_point_positions(
 	fclose(fileID6);
 	fclose(fileID7);
 		
-	double period = 1.0;          //period of peristalsis
+	double period = 0.5;          //period of peristalsis
 	double t1 = 0.05*period;	  //time to make gaussian wave
 	double t2= period - 2*t1;	  //time for wave to move
 	double t3 = t1;	              //time to reduce gaussian wave
@@ -89,7 +89,7 @@ void update_target_point_positions(
 	
 	double x;				  //x-Pt specified (rolls over each lag-pt)
 	double w = 0.015;           //Width of Gaussian Wave
-	double A_tilde = 9481500;   //"Fixed" Amplitude for Gaussian Wave
+	double A_tilde = 12642000;   //"Fixed" Amplitude for Gaussian Wave
 	double R_o = 0.3;	      //OUTER Radius
 	double R_i = 0.2;        //INNER Radius
 
