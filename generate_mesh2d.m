@@ -94,7 +94,7 @@ centerx2Top = 0.5*LtTop ; %shifting of uppder branch center of right curved sect
 % Parameters for the pericardium
 Dp = 2*diameter;                    %diameter of the pericardium
 Nperi = 2*ceil((Dp-diameter)/ds);  % number of boundary points along the sides of the pericardium
-Nperitot = Nperi + Nstraight;       % total number of pericardium points
+Nperitot = Nperi + Nstraight/2;       % total number of pericardium points
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -545,47 +545,47 @@ vertex_fid = fopen([mesh_name 'peri_' num2str(N) '.vertex'], 'w');
 fprintf(vertex_fid, '%d\n', Nperitot);
 
 % make the top and bottom of the pericardium
-for i=1:ceil(Nstraight/2),
+for i=1:ceil(Nstraight/4),
     ytop = centery-(R2-(Dp-diameter)/2);
-    xtop = -Lt/2+(i-1)*ds;
+    xtop = -Lt/2+i*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
     plot(xtop,ytop)
 end
 
-for i=ceil(Nstraight/2)+1:ceil(Nstraight),
+for i=ceil(Nstraight/4)+1:ceil(Nstraight/2),
     ybot = centery-R1-(Dp-diameter)/2;
-    xbot = -Lt/2+(i-ceil(Nstraight/4)-1)*ds;
+    xbot = Lt/2+(i-ceil(Nstraight/2)-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
     plot(xbot,ybot)
 end
 
 % make the four side pieces
-for i=Nstraight+1:Nstraight+ceil(Nperi/4),
-    y = centery-(R1+(Dp-diameter)/2)+(i-Nstraight-1)*ds;
+for i=ceil(Nstraight/2)+1:ceil(Nstraight/2)+ceil(Nperi/4),
+    y = centery-(R1+(Dp-diameter)/2)+(i-ceil(Nstraight/2)-1)*ds;
     x = -Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
-    plot(x,y)
+    plot(x,y,'r')
 end
 
-for i=Nstraight+ceil(Nperi/4)+1:Nstraight+ceil(Nperi/2),
-    y = centery-R2+(i-Nstraight-ceil(Nperi/4)-1)*ds;
+for i=ceil(Nstraight/2)+ceil(Nperi/4)+1:ceil(Nstraight/2)+ceil(Nperi/2),
+    y = centery-R2+(i-ceil(Nstraight/2)-ceil(Nperi/4)-1)*ds;
     x = -Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
-    plot(x,y)
+    plot(x,y,'b')
 end
 
-for i=Nstraight+ceil(Nperi/2)+1:Nstraight+ceil(3*Nperi/4),
-    y = centery-(R1+(Dp-diameter)/2)+(i-Nstraight-ceil(Nperi/2)-1)*ds;
+for i=ceil(Nstraight/2)+ceil(Nperi/2)+1:ceil(Nstraight/2)+ceil(3*Nperi/4),
+    y = centery-(R1+(Dp-diameter)/2)+(i-ceil(Nstraight/2)-ceil(Nperi/2)-1)*ds;
     x = Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
-    plot(x,y)
+    plot(x,y,'g')
 end
 
-for i=Nstraight+ceil(3*Nperi/4)+1:Nperitot,
-    y = centery-R2+(i-Nstraight-ceil(3*Nperi/4)-1)*ds;
+for i=ceil(Nstraight/2)+ceil(3*Nperi/4)+1:Nperitot,
+    y = centery-R2+(i-ceil(Nstraight/2)-ceil(3*Nperi/4)-1)*ds;
     x = Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
-    plot(x,y)
+    plot(x,y,'k')
 end
 fclose(vertex_fid);
 
