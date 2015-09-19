@@ -89,7 +89,7 @@ void update_target_point_positions(
 	
 	double x;				  //x-Pt specified (rolls over each lag-pt)
 	double w = 0.015;           //Width of Gaussian Wave
-	double A_tilde = 12642000;   //"Fixed" Amplitude for Gaussian Wave
+	double A_tilde = 15802000;   //"Fixed" Amplitude for Gaussian Wave
 	double R_o = 0.3;	      //OUTER Radius
 	double R_i = 0.2;        //INNER Radius
 

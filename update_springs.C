@@ -35,8 +35,8 @@ update_springs(
 	double t2= period - 2*t1;	  //time for wave to move
 	double t3 = t1;	              //time to reduce gaussian wave
 
-	double spring_hard = 0.1;	  // spring stiffness for the gaussian wave
-	double spring_soft = 0.001;	  // spring stiffness for the rest of the tube
+	double spring_hard = 1.0;	  // spring stiffness for the gaussian wave
+	double spring_soft = 0.01;	  // spring stiffness for the rest of the tube
 	
 	int nO_1st = 0;      //First Pt. of Peristaltic Region on OUTER
 	int nO_2nd = 598;  //Last Pt. of Peristaltic Region on OUTER
