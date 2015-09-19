@@ -13,14 +13,13 @@ ds2 = L/(4*N);                       % space between boundary points in straight
 
 Let = 1.34*0.1;                          % Length of elastic tube (m)
 Nend = 10;                           % Number of rigid points on each end of elastic section
-Lt = Let+2*Nend*ds;                 % Length of straight section with three rigid points on each end
+Lt = Let+2*Nend*ds2;                 % Length of straight section with three rigid points on each end
 
 diameter = 0.1;                     % diameter of the tube
 R2 = 0.1;                           % radius of inner wall
 R1 = R2+diameter;                   % radius of outer wall
-percont = 0.8;                      %percent contraction for applied force peristalsis
 
-Nstraight = 2*ceil(Lt/ds);          % number of points along each straight section
+Nstraight = 2*ceil(Lt/ds)          % number of points along each straight section
 Ncurve = 2*ceil(pi*R1/ds);          % number of points along each curved section
 Nrace = Nstraight+2*Ncurve;         % number of points making up the racetrack part
 dtheta = pi/(Ncurve/2);             % angle increment for drawing curved edges
@@ -64,7 +63,7 @@ phase = 0;                      %initial phase of the oscillating force, where F
 % Write out the vertex information
 
 vertex_fid = fopen([mesh_name 'tube_' num2str(N) '.vertex'], 'w');
-fprintf(vertex_fid, '%d\n', Nstraight);
+fprintf(vertex_fid, '%d\n', 2*Nstraight);
 figure(1)
 hold on
 %top part
@@ -255,23 +254,35 @@ fclose(beam_fid);
 % Write out the target point information for the ends of the elastic tube
 target_fid = fopen([mesh_name 'tube_' num2str(N) '.target'], 'w');
 
-fprintf(target_fid, '%d\n', 4*Nend);
+fprintf(target_fid, '%d\n', 2*Nstraight); 
 
-for i = 0:Nend-1,
-    fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
+
+2*Nstraight
+for i = 0:(Nstraight)-1,   
+    fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds2/(ds2^2));
 end
 
-for i = ceil(Nstraight/2)-Nend:ceil(Nstraight/2)-1,
-    fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
+for i = (Nstraight):(2*Nstraight)-1,   
+    fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds2/(ds2^2));
 end
 
-for i = ceil(Nstraight/2):ceil(Nstraight/2)+Nend-1,
-    fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
-end
 
-for i = Nstraight-Nend:Nstraight-1,
-    fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
-end
+% 
+% for i = 0:Nend-1,   %OLD
+%     fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
+% end
+% 
+% for i = ceil(Nstraight/2)-Nend:ceil(Nstraight/2)-1,  %OLD
+%     fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
+% end
+% 
+% for i = ceil(Nstraight/2):ceil(Nstraight/2)+Nend-1,   %OLD
+%     fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
+% end
+% 
+% for i = Nstraight-Nend:Nstraight-1,    %OLD
+%     fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds/(ds^2));
+% end
 
 fclose(target_fid);
 
