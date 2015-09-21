@@ -236,14 +236,14 @@ fclose(spring_fid);
 % % Write out the beam information for the elastic section
 
 beam_fid = fopen([mesh_name 'tube_' num2str(N) '.beam'], 'w');
-fprintf(beam_fid, '%d\n', Nstraight-4);
+fprintf(beam_fid, '%d\n', 2*Nstraight-4);
 
 %elastic part of tube
-for i = 0:ceil(Nstraight/2)-3,
+for i = 0:Nstraight-3,
     fprintf(beam_fid, '%d %d %d %1.16e\n', i, i+1, i+2, kappa_beam*ds/(ds^4));
 end
 
-for i = ceil(Nstraight/2):Nstraight-3,
+for i = Nstraight:2*Nstraight-3,
     fprintf(beam_fid, '%d %d %d %1.16e\n', i, i+1, i+2, kappa_beam*ds/(ds^4));
 end
 fclose(beam_fid);
