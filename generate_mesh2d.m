@@ -26,8 +26,8 @@ Let = 1.34*0.1;                          % Length of elastic tube (m) scaled wrt
 % V5 TS. Nick's Heart_Tube.m code uses a fraction of the length of the tube to determine
 % the number of rigid points on each end of elastic section. Made changes
 % to use the same number he's using (can output these numbers from his code). 
-Nend = 25;
-% Nend = 10;                           % Number of rigid points on each end of elastic section
+%Nend = 25;
+Nend = 10;                           % Number of rigid points on each end of elastic section
 Lt = Let+2*Nend*ds2;                 % Length of main tube straight section with Nend rigid points on each end
 
 

@@ -217,14 +217,14 @@ fclose(vertex_fid);
 % Write out the spring information for the elastic section
 
 spring_fid = fopen([mesh_name 'tube_' num2str(N) '.spring'], 'w');
-fprintf(spring_fid, '%d\n', Nstraight-2);
+fprintf(spring_fid, '%d\n', 2*Nstraight-2);
 
 %elastic part of tube
-for i = 0:ceil(Nstraight/2)-2,
+for i = 0:Nstraight-2,
     fprintf(spring_fid, '%d %d %1.16e %1.16e\n', i, i+1, kappa_spring*ds/(ds^2), ds);
 end
 
-for i = ceil(Nstraight/2):Nstraight-2,
+for i = Nstraight:2*Nstraight-2,
     fprintf(spring_fid, '%d %d %1.16e %1.16e\n', i, i+1, kappa_spring*ds/(ds^2), ds);
 end
 
