@@ -70,15 +70,15 @@ hold on
 for i=1:Nstraight,
     ytop = centery-R2;
     xtop = -Lt/2+(i-1)*ds2;
-    plot(xtop,ytop,'k')
+    plot(xtop,ytop,'g')
     fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
 end
 
 %bottom part
 for i=Nstraight+1:2*Nstraight,
     ybot = centery-R1;
-    xbot = -Lt/2+(i-ceil(Nstraight/2)-1)*ds2;
-    plot(xtop,ytop,'k')
+    xbot = -Lt/2+(i-Nstraight-1)*ds2;
+    plot(xbot,ybot,'m')
     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
 end
 fclose(vertex_fid);
