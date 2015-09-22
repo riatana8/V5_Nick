@@ -118,9 +118,9 @@ function [X,Y,NVec,Info_Target] = Make_Boundary(ds,L,R_o,R_i,d,centery)
     yS_T_o = yS - R_o;   %y-Values for OUTER top of tube
     yS_T_i = yS - R_i;   %y-Values for INNER top of tube
    % figure
-    plot(xS, yS_T_o,'r--')
+    %plot(xS, yS_T_o,'r--')
     hold on
-    plot(xS, yS_T_i,'r-.')
+    %plot(xS, yS_T_i,'r-.')
     
     [yS_B yS_B2 Nbot Info_Target] = make_Gaussian_Wave(xS,d,L,R_o,R_i); %Gives Final Position for Wave
     yP_o_2 = centery + yS_B - R_o;     %y-Values for OUTER bottom of tube for PHASE 2 (right when peri. starts)
@@ -133,9 +133,9 @@ function [X,Y,NVec,Info_Target] = Make_Boundary(ds,L,R_o,R_i,d,centery)
     yP_o_3 = centery + yS_B2 - R_o;    %y-Values for OUTER bottom of tube for PHASE 3 (right when peri. ends)
     yP_i_3 = centery - yS_B2 - R_i;   %y-Values for INNER bottom of tube for PHASE 3
    % figure
-    plot(xS, yP_o_3,'b--')
+    %plot(xS, yP_o_3,'b--')
     hold on
-    plot(xS, yP_i_3,'b-.')
+    %plot(xS, yP_i_3,'b-.')
     %%%% V5 TS made all entries in yB -0.1 instead of 0 (our model has a center
 % y coord of -0.1 not 0
     yB = zeros(1,length(xS));
@@ -250,8 +250,8 @@ function [yS_B yS_B2 NVec Info_Target] = make_Gaussian_Wave(xS,d,L,R_o,R_i)
 % made where this code is returned.
 
 frac = 0.1;     %frac of straight-portion not doing peristalsis
-Am = 0.5*d      %amplitude of peristalsis wave
-w = 0.15*d          %width of wave
+Am = 0.40*d      %amplitude of peristalsis wave
+w = 0.25*d          %width of wave
 
 Lend = -L/2 + frac*L/2; %Last pt. going R->L on straight part on LHS of peri. region
 Rend = L/2 -  frac*L/2; %First pt. going R-> on straight part of RHS of peri. region
