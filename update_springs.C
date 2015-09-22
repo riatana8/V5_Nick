@@ -42,12 +42,17 @@ update_springs(
 	int nO_2nd = 598;  //Last Pt. of Peristaltic Region on OUTER
 	int nI_1st = 599;   //First Pt. of Peristaltic Region on INNER
 	int nI_2nd = 1198; //Last Pt. of Peristaltic Region on INNER
+	int ppm = 4096;		//Number of points per meter (1/ds2 in generate mesh)
 	//Need to check these. Note: V5 heart tube vertex files write inner (top) first, then outer (top). Guessing that there is a region
 	// before and after the peristalsis region of each tube that is 8 points long. length of peristaltic region is 104.
 	//NOTE: -1's are bc counting starts at 0 in arrays in C++ 
 	
-	double x0 = X[31];		      //Left-Pt of Wave at INITIAL POSITION, changed from 31 4/20
-	double x1 = X[91];		      //Right-Pt of Wave at INITIAL POSITION
+	int p0 = 34;	// Left PT of wave at initial position
+	int p1 = 122;	// Right Pt of wave at initial position
+	int pC = round((p0+p1)/2);	// Pt closest to center at initial position
+			
+	double x0 = X[p0];		      //Left- position of Wave at INITIAL POSITION, changed from 31 4/20
+	double x1 = X[p1];		      //Right- position of Wave at INITIAL POSITION
 	// change these to scale? with X = 616, x0 = X[31], x1 = X[113]
 	double xC = (x0+x1)/2;		  //Center-Pt of Wave at INITIAL POSITION
 	double tt = fmod(current_time,period); //Current time in simulation (remainder of time/period for phases)
@@ -57,6 +62,10 @@ update_springs(
 	double x0n = x0 + tp;		  //Left-Pt of Wave at time, t
 	double x1n = x1 + tp;		  //Right-Pt of Wave at time, t
 	
+	int pCn = pC + round(tp*ppm);		// Position of center of wave at time t
+	int p0n = p0 + round(tp*ppm);		// Position of left end of wave at time t
+	int p1n = p1 + round(tp*ppm);		// Position of right of wave at time t
+		
 	double g1;		//Interpolation Function between Phase 1 and 2
 	double g3;		//Interpolation Function between Phase 3 and 4
 	
@@ -80,6 +89,7 @@ update_springs(
     for (vector<LNode*>::iterator it = nodes.begin(); it != nodes.end(); ++it)
     {
         LNode* node_idx = *it;
+       // IBTargetPointForceSpec* force_spec = node_idx->getNodeDataItem<IBTargetPointForceSpec>();
         IBSpringForceSpec* spring_spec = node_idx->getNodeDataItem<IBSpringForceSpec>();
 		
         if (spring_spec == NULL) continue;  // skip to next node
@@ -95,6 +105,7 @@ update_springs(
         // In this example, the resting length is increased by 0.01*dt each time step.
 
         const int lag_idx = node_idx->getLagrangianIndex();
+        Point& X_target = force_spec->getTargetPointPosition();
 	//there are two ways to get resting lenghts depending on the IBAMR version. Both are copied here.
 	//std::vector<double>& resting_length = spring_spec->getRestingLengths();
 	//double resting_length = spring_spec->getParameters()[0][1];
@@ -119,7 +130,7 @@ update_springs(
 			//TIME FOR PHASE 2 -> Translate Gaussian Wave
 			
 				
-				if (x < x0n) {
+				if (lag_idx < p0n) {
 				
 					if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
 						spring_stiffness = spring_soft;
@@ -127,7 +138,7 @@ update_springs(
 						spring_stiffness = spring_soft;
 					}
 				
-				} else if (x > x1n) {
+				} else if (lag_idx > p1n) {
 				
 					if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
 						spring_stiffness = spring_soft;
