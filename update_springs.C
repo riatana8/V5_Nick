@@ -15,7 +15,7 @@ update_springs(
     static const double L1 = 1; // length of computational domain (meters)
     static const int N1 = 1024; // number of cartesian grid meshwidths at the finest level of the AMR grid
 	
-	static const int numPts = 599;//Number of Points in Bottom of Tube, changed from 155 4/20
+	static const int numPts = 629;//Number of Points in Bottom of Tube, changed from 155 4/20
 	// is this the number of points period or points that move for peristalsis?
 	static double X[numPts];	  //Stores X-Values for Bottom of Tube
 
@@ -39,9 +39,9 @@ update_springs(
 	double spring_soft = 0.01;	  // spring stiffness for the rest of the tube
 	
 	int nO_1st = 0;      //First Pt. of Peristaltic Region on OUTER
-	int nO_2nd = 598;  //Last Pt. of Peristaltic Region on OUTER
-	int nI_1st = 599;   //First Pt. of Peristaltic Region on INNER
-	int nI_2nd = 1198; //Last Pt. of Peristaltic Region on INNER
+	int nO_2nd = 628;  //Last Pt. of Peristaltic Region on OUTER
+	int nI_1st = 629;   //First Pt. of Peristaltic Region on INNER
+	int nI_2nd = 1257; //Last Pt. of Peristaltic Region on INNER
 	int ppm = 4096;		//Number of points per meter (1/ds2 in generate mesh)
 	//Need to check these. Note: V5 heart tube vertex files write inner (top) first, then outer (top). Guessing that there is a region
 	// before and after the peristalsis region of each tube that is 8 points long. length of peristaltic region is 104.
@@ -105,11 +105,11 @@ update_springs(
         // In this example, the resting length is increased by 0.01*dt each time step.
 
         const int lag_idx = node_idx->getLagrangianIndex();
-        Point& X_target = force_spec->getTargetPointPosition();
+    
 	//there are two ways to get resting lenghts depending on the IBAMR version. Both are copied here.
 	//std::vector<double>& resting_length = spring_spec->getRestingLengths();
 	//double resting_length = spring_spec->getParameters()[0][1];
-    x = X_target[0];
+
     
 	//Note that you can also getStiffnesses
 	double spring_stiffness = spring_spec->getParameters()[0][0];

@@ -15,7 +15,7 @@ void update_target_point_positions(
     static const double pi = 4*atan(1);	
 	
 	//Info for Peristaltic Region stuff
-	static const int numPts = 599;//Number of Points in Bottom of Tube, changed from 155 4/20
+	static const int numPts = 629;//Number of Points in Bottom of Tube, changed from 155 4/20
 	// is this the number of points period or points that move for peristalsis?
 	static double X[numPts];	  //Stores X-Values for Bottom of Tube
 	static double yOut_1[numPts]; //Stores Y-Values for OUTER Region in PHASE 1
@@ -66,15 +66,15 @@ void update_target_point_positions(
 	
 	
 	int nO_1st = 0;      //First Pt. of Peristaltic Region on OUTER
-	int nO_2nd = 598;  //Last Pt. of Peristaltic Region on OUTER
-	int nI_1st = 599;   //First Pt. of Peristaltic Region on INNER
-	int nI_2nd = 1198; //Last Pt. of Peristaltic Region on INNER
+	int nO_2nd = 628;  //Last Pt. of Peristaltic Region on OUTER
+	int nI_1st = 629;   //First Pt. of Peristaltic Region on INNER
+	int nI_2nd = 1257; //Last Pt. of Peristaltic Region on INNER
 	//Need to check these. Note: V5 heart tube vertex files write inner (top) first, then outer (top). Guessing that there is a region
 	// before and after the peristalsis region of each tube that is 8 points long. length of peristaltic region is 104.
 	//NOTE: -1's are bc counting starts at 0 in arrays in C++ 
 	
-	double x0 = X[31];		      //Left-Pt of Wave at INITIAL POSITION, changed from 31 4/20
-	double x1 = X[91];		      //Right-Pt of Wave at INITIAL POSITION
+	double x0 = X[34];		      //Left-Pt of Wave at INITIAL POSITION, changed from 31 4/20
+	double x1 = X[122];		      //Right-Pt of Wave at INITIAL POSITION
 	// change these to scale? with X = 616, x0 = X[31], x1 = X[113]
 	double xC = (x0+x1)/2;		  //Center-Pt of Wave at INITIAL POSITION
 	double tt = fmod(current_time,period); //Current time in simulation (remainder of time/period for phases)
@@ -88,8 +88,8 @@ void update_target_point_positions(
 	double g3;		//Interpolation Function between Phase 3 and 4
 	
 	double x;				  //x-Pt specified (rolls over each lag-pt)
-	double w = 0.015;           //Width of Gaussian Wave
-	double A_tilde = 15802000;   //"Fixed" Amplitude for Gaussian Wave
+	double w = 0.025;           //Width of Gaussian Wave
+	double A_tilde = 1638400;   //"Fixed" Amplitude for Gaussian Wave
 	double R_o = 0.3;	      //OUTER Radius
 	double R_i = 0.2;        //INNER Radius
 
