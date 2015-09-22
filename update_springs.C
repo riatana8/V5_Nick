@@ -98,6 +98,7 @@ update_springs(
 	//there are two ways to get resting lenghts depending on the IBAMR version. Both are copied here.
 	//std::vector<double>& resting_length = spring_spec->getRestingLengths();
 	//double resting_length = spring_spec->getParameters()[0][1];
+    x = X_target[0];
     
 	//Note that you can also getStiffnesses
 	double spring_stiffness = spring_spec->getParameters()[0][0];
@@ -115,15 +116,38 @@ update_springs(
 		}
 	} else if ( (tt>t1) && (tt<=(t1+t2)) ) {
 	
-		if ((lag_idx>=x0n) && (lag_idx<=x1n)) {
-		
-			spring_stiffness = spring_hard;
-		
-		} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
+			//TIME FOR PHASE 2 -> Translate Gaussian Wave
 			
-			spring_stiffness = spring_soft;
-			
-		}
+				
+				if (x < x0n) {
+				
+					if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
+						spring_stiffness = spring_soft;
+					} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
+						spring_stiffness = spring_soft;
+					}
+				
+				} else if (x > x1n) {
+				
+					if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
+						spring_stiffness = spring_soft;
+					} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
+						spring_stiffness = spring_soft;
+					}
+				
+				} else {    
+				
+					if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
+					
+						spring_stiffness = spring_hard;
+					
+					} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
+					
+						spring_stiffness = spring_hard;
+					
+					}
+				
+				}
 	} else if ( (tt > (t1+t2)) && ( tt <= (t1+t2+t3)) ) {
 	
 		if ((lag_idx>=x0n) && (lag_idx<=x1n)) {
