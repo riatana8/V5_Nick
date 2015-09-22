@@ -116,59 +116,72 @@ update_springs(
 	
 	if (tt<=t1) {
 	
-		if ((lag_idx>=x0) && (lag_idx<=x1)) {
+		if ((lag_idx>=(p0+nI_1st)) && (lag_idx<=(p1+nI_1st))) {
 		
 			spring_stiffness = spring_hard;
 		
-		} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
+		} else if ((lag_idx>=p0) && (lag_idx<=p1)) {
+		
+			spring_stiffness = spring_hard;
+		
+		} else if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
 			
 			spring_stiffness = spring_soft;
 			
+		} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
+
+			spring_stiffness = spring_soft;			
+
+		} else {
+
+			//spring_stiffness = spring_hard;
 		}
 	} else if ( (tt>t1) && (tt<=(t1+t2)) ) {
 	
 			//TIME FOR PHASE 2 -> Translate Gaussian Wave
 			
 				
-				if (lag_idx < p0n) {
-				
-					if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
-						spring_stiffness = spring_soft;
-					} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
-						spring_stiffness = spring_soft;
-					}
-				
-				} else if (lag_idx > p1n) {
-				
-					if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
-						spring_stiffness = spring_soft;
-					} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
-						spring_stiffness = spring_soft;
-					}
-				
-				} else {    
-				
-					if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
-					
-						spring_stiffness = spring_hard;
-					
-					} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
-					
-						spring_stiffness = spring_hard;
-					
-					}
-				
-				}
-	} else if ( (tt > (t1+t2)) && ( tt <= (t1+t2+t3)) ) {
-	
-		if ((lag_idx>=x0n) && (lag_idx<=x1n)) {
+		if ((lag_idx>=(p0n+nI_1st)) && (lag_idx<=(p1n+nI_1st))) {
 		
 			spring_stiffness = spring_hard;
 		
-		} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
+		} else if ((lag_idx>=p0n) && (lag_idx<=p1n)) {
+		
+			spring_stiffness = spring_hard;
+		
+		} else if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
 			
 			spring_stiffness = spring_soft;
 			
+		} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
+
+			spring_stiffness = spring_soft;			
+
+		} else {
+
+			//spring_stiffness = spring_hard;
+		}
+	} else if ( (tt > (t1+t2)) && ( tt <= (t1+t2+t3)) ) {
+	
+		if ((lag_idx>=(p0n+nI_1st)) && (lag_idx<=(p1n+nI_1st))) {
+		
+			spring_stiffness = spring_hard;
+		
+		} else if ((lag_idx>=p0n) && (lag_idx<=p1n)) {
+		
+			spring_stiffness = spring_hard;
+		
+		} else if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
+			
+			spring_stiffness = spring_soft;
+			
+		} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
+
+			spring_stiffness = spring_soft;			
+
+		} else {
+
+			//spring_stiffness = spring_hard;
 		}
 	}
 		//Note that you can also getStiffnesses
@@ -178,12 +191,13 @@ update_springs(
 		// 	   //I've commented this out, but you could make the left plate grow and the right shrink
 		// 	 }
 		// if (plate2d_rght_lag_idxs.first <= lag_idx && lag_idx < plate2d_rght_lag_idxs.second)
-	    {
+	    //{
 			//resting_length[0]-=0.01*dt;
 			//I've commented this out, but you could make the left plate grow and the right shrink
-	    }
+	    //}
 		
 
     }
     return;
+    } //Ends for-loop over all lag_pts
 }// update_springs
