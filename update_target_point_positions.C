@@ -14,6 +14,9 @@ void update_target_point_positions(
 
     static const double pi = 4*atan(1);	
 	
+	double spring_hard = 1.0;	  // spring stiffness for the gaussian wave
+	double spring_soft = 0.01;	  // spring stiffness for the rest of the tube
+	
 	//Info for Peristaltic Region stuff
 	static const int numPts = 629;//Number of Points in Bottom of Tube, changed from 155 4/20
 	// is this the number of points period or points that move for peristalsis?
@@ -69,12 +72,17 @@ void update_target_point_positions(
 	int nO_2nd = 628;  //Last Pt. of Peristaltic Region on OUTER
 	int nI_1st = 629;   //First Pt. of Peristaltic Region on INNER
 	int nI_2nd = 1257; //Last Pt. of Peristaltic Region on INNER
+	int ppm = 4096;		//Number of points per meter (1/ds2 in generate mesh)
 	//Need to check these. Note: V5 heart tube vertex files write inner (top) first, then outer (top). Guessing that there is a region
 	// before and after the peristalsis region of each tube that is 8 points long. length of peristaltic region is 104.
 	//NOTE: -1's are bc counting starts at 0 in arrays in C++ 
 	
-	double x0 = X[34];		      //Left-Pt of Wave at INITIAL POSITION, changed from 31 4/20
-	double x1 = X[122];		      //Right-Pt of Wave at INITIAL POSITION
+	int p0 = 34;	// Left PT of wave at initial position
+	int p1 = 122;	// Right Pt of wave at initial position
+	int pC = round((p0+p1)/2);	// Pt closest to center at initial position
+			
+	double x0 = X[p0];		      //Left- position of Wave at INITIAL POSITION, changed from 31 4/20
+	double x1 = X[p1];		      //Right- position of Wave at INITIAL POSITION
 	// change these to scale? with X = 616, x0 = X[31], x1 = X[113]
 	double xC = (x0+x1)/2;		  //Center-Pt of Wave at INITIAL POSITION
 	double tt = fmod(current_time,period); //Current time in simulation (remainder of time/period for phases)
@@ -82,7 +90,12 @@ void update_target_point_positions(
 	double tp = c*(tt-t1);        // Wave-Speed * time
 	double xCn = xC + tp;		  //Center-Pt of Wave at time, t
 	double x0n = x0 + tp;		  //Left-Pt of Wave at time, t
-	double x1n = x1 + tp;		  //Right-Pt of Wave at time,
+	double x1n = x1 + tp;		  //Right-Pt of Wave at time, t
+	
+	int pCn = pC + round(tp*ppm);		// Position of center of wave at time t
+	int p0n = p0 + round(tp*ppm);		// Position of left end of wave at time t
+	int p1n = p1 + round(tp*ppm);		// Position of right of wave at time t
+		
 	
 	double g1;		//Interpolation Function between Phase 1 and 2
 	double g3;		//Interpolation Function between Phase 3 and 4
@@ -141,7 +154,7 @@ void update_target_point_positions(
         //
         //FOR KD MODULE:
         Point& X_target = force_spec->getTargetPointPosition();
-        //
+        Point& X_spring = force_spec->getStiffness();
         //FOR NEMOs / KD (NOT MODULE)
         //TinyVector<double,NDIM>& X_target = force_spec->getTargetPointPosition();
         //
@@ -160,7 +173,8 @@ void update_target_point_positions(
 				//g1 = (1.0/t1)*current_time + 0.0;
 				
 				if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
-				
+					
+					
 					g1 = (1.0/t1)*tt + 0.0;
 					
 					X_target[1] = yOut_1[lag_idx] + g1*( yOut_2[lag_idx] - yOut_1[lag_idx] );
@@ -172,6 +186,15 @@ void update_target_point_positions(
 					//cout << "yOut_2 = " << yOut_2[lag_idx] << "\n";
 					//cout << "X_target[1] = " << X_target[1] << "\n\n\n\n";
 					
+					if ((lag_idx>=p0) && (lag_idx<=p1)) {
+		
+						X_spring = spring_hard;
+		
+					} else {
+		
+						X_spring = spring_soft;
+		
+					} 
 			
 				} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
 			
@@ -186,10 +209,19 @@ void update_target_point_positions(
 					//cout << "yIn_2 = " << yIn_2[lag_idx-nI_1st] << "\n";
 					//cout << "X_target[1] = " << X_target[1] << "\n\n\n\n";
 
+					if ((lag_idx>=(p0+nI_1st)) && (lag_idx<=(p1+nI_1st))) {
 					
+						X_spring = spring_hard;
+					
+					} else {
+						
+						X_spring = spring_soft;
+		
+					} 
 					
 				}
-		
+			
+				
 			        //END TIME FOR PHASE 1 -> Gaussian Wave is Made 
 			
 		} else if ( (tt>t1) && (tt<=(t1+t2)) ) {
@@ -201,16 +233,20 @@ void update_target_point_positions(
 				
 					if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
 						X_target[1] = -R_o;
+						X_spring = spring_soft;
 					} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
 						X_target[1] = -R_i;
+						X_spring = spring_soft;
 					}
 				
 				} else if (x > x1n) {
 				
 					if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
 						X_target[1] = -R_o;
+						X_spring = spring_soft;
 					} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
 						X_target[1] = -R_i;
+						X_spring = spring_soft;
 					}
 				
 				} else {    
@@ -218,10 +254,12 @@ void update_target_point_positions(
 					if ((lag_idx>=nO_1st)&&(lag_idx<=nO_2nd)) {
 					
 						X_target[1] =    A_tilde*pow(x-x0n,2)*pow(x1n-x,2)*exp( -1*pow(x-xCn,2) / pow(w/2.0,2)  ) - R_o;
+						X_spring = spring_hard;
 					
 					} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
 					
 						X_target[1] = -1*A_tilde*pow(x-x0n,2)*pow(x1n-x,2)*exp( -1*pow(x-xCn,2) / pow(w/2.0,2)  ) - R_i;
+						X_spring = spring_hard;
 					
 					}
 				
@@ -237,12 +275,31 @@ void update_target_point_positions(
 				
 					g3 = (1.0/t3)*tt - (t1+t2)/t3;
 					X_target[1] = yOut_3[lag_idx] + g3*( yOut_1[lag_idx] - yOut_3[lag_idx] );
+					
+					if ((lag_idx>=p0) && (lag_idx<=p1)) {
+		
+						X_spring = spring_hard;
+		
+					} else {
+		
+						X_spring = spring_soft;
+		
+					}
 				
 				} else if ((lag_idx>=nI_1st)&&(lag_idx<=nI_2nd)) {
 				
 					g3 = (1.0/t3)*tt - (t1+t2)/t3;
 					X_target[1] = yIn_3[lag_idx-nI_1st] +  g3*( yIn_1[lag_idx-nI_1st] - yIn_3[lag_idx-nI_1st] );
 				
+					if ((lag_idx>=p0) && (lag_idx<=p1)) {
+		
+						X_spring = spring_hard;
+		
+					} else {
+		
+						X_spring = spring_soft;
+		
+					}
 				}
 					
 					//END TIME FOR PHASE 3 -> Now back to straight tube
