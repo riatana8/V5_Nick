@@ -154,7 +154,7 @@ void update_target_point_positions(
         //
         //FOR KD MODULE:
         Point& X_target = force_spec->getTargetPointPosition();
-        Point& X_spring = force_spec->getStiffness();
+        double X_spring = force_spec->getStiffness();
         //FOR NEMOs / KD (NOT MODULE)
         //TinyVector<double,NDIM>& X_target = force_spec->getTargetPointPosition();
         //
