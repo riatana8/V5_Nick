@@ -139,9 +139,9 @@ dmy = diameter/(Nmarkersy-1);       %space between markers in y-direction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% material parameters
-kappa_spring = 1.0;               % spring constant (Newton)
+kappa_spring = 1.0e-1;               % spring constant (Newton)
 kappa_beam = 1.0e-1;                 % beam stiffness constant (Newton m^2)
-kappa_target = 5;        % target point penalty spring constant (Newton)
+kappa_target = 10;        % target point penalty spring constant (Newton)
 Fmag = kappa_spring;                % this is my best guess at a reasonable applied force
 phase = 0;                      %initial phase of the oscillating force, where F=Fmag*phase and phase = (1+sin(2*pi*f*t-pi/2));
 %%

@@ -12,8 +12,8 @@ include $(IBAMR_BUILD_DIR)/config/make.inc
 
 ######################################################################
 ## Build the IB tester application.
-SOURCES = main.C update_target_point_positions.C update_target_point_positions.h update_springs.C update_springs.h
-OBJS = main.o update_target_point_positions.o update_springs.o
+SOURCES = main.C update_target_point_positions.C update_target_point_positions.h
+OBJS = main.o update_target_point_positions.o 
 
 default:
 	@echo "make one of: main2d, main3d"
