@@ -19,9 +19,10 @@ diameter = 0.1;                     % diameter of the tube
 R2 = 0.1;                           % radius of inner wall
 R1 = R2+diameter;                   % radius of outer wall
 
-Nstraight = 2*ceil(Lt/ds2)          % number of points along each straight section
+Nstraighttube = 2*ceil(Lt/ds2)          % number of points along each straight section
+Nstraightrace = 2*ceil(Lt/ds);          % number of points along each straight section
 Ncurve = 2*ceil(pi*R1/ds);          % number of points along each curved section
-Nrace = Nstraight+2*Ncurve;         % number of points making up the racetrack part
+Nrace = Nstraightrace+2*Ncurve;         % number of points making up the racetrack part
 dtheta = pi/(Ncurve/2);             % angle increment for drawing curved edges
 
 mesh_name = 'heart_';               % structure name
@@ -35,7 +36,7 @@ centerx2 = 0.5*Lt;                  % x-position of center of right curved secti
 % Parameters for the pericardium
 Dp = 2*diameter;                    %diameter of the pericardium
 Nperi = 2*ceil((Dp-diameter)/ds);  % number of boundary points along the sides of the pericardium
-Nperitot = Nperi + ceil(Nstraight/2);       % total number of pericardium points
+Nperitot = Nperi + Nstraightrace;       % total number of pericardium points
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -63,11 +64,11 @@ phase = 0;                      %initial phase of the oscillating force, where F
 % Write out the vertex information
 
 vertex_fid = fopen([mesh_name 'tube_' num2str(N) '.vertex'], 'w');
-fprintf(vertex_fid, '%d\n', Nstraight);
+fprintf(vertex_fid, '%d\n', Nstraighttube);
 figure(1)
 hold on
 %top part
-for i=1:ceil(Nstraight/2),
+for i=1:ceil(Nstraighttube/2),
     ytop = centery-R2;
     xtop = -Lt/2+(i-1)*ds2;
     plot(xtop,ytop,'g')
@@ -75,9 +76,9 @@ for i=1:ceil(Nstraight/2),
 end
 
 %bottom part
-for i=ceil(Nstraight/2)+1:Nstraight,
+for i=ceil(Nstraighttube/2)+1:Nstraighttube,
     ybot = centery-R1;
-    xbot = -Lt/2+(i-ceil(Nstraight/2)-1)*ds2;
+    xbot = -Lt/2+(i-ceil(Nstraighttube/2)-1)*ds2;
     plot(xbot,ybot,'m')
     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
 end
@@ -127,31 +128,31 @@ for i=ceil(Ncurve/2)+1:Ncurve,
 end
 
 %straight section on the top
-for i = Ncurve+1:Ncurve+ceil(Nstraight/4),
+for i = Ncurve+1:Ncurve+ceil(Nstraightrace/2),
     yin = centery+R2;
     xin = centerx2-(i-Ncurve-1)*ds;
     plot(xin,yin,'b')
     fprintf(vertex_fid, '%1.16e %1.16e\n', xin, yin);
 end
 
-for i = Ncurve+ceil(Nstraight/4)+1:Ncurve+ceil(Nstraight/2),
+for i = Ncurve+ceil(Nstraightrace/2)+1:Ncurve+ceil(Nstraightrace/1),
     yout = centery+R1;
-    xout = centerx2-(i-Ncurve-ceil(Nstraight/4)-1)*ds;
+    xout = centerx2-(i-Ncurve-ceil(Nstraightrace/2)-1)*ds;
     plot(xout,yout,'b')
     fprintf(vertex_fid, '%1.16e %1.16e\n', xout, yout);
 end
 
 %left curved part of racetrack
-for i = Ncurve+ceil(Nstraight/2)+1:Ncurve+ceil(Nstraight/2)+ceil(Ncurve/2),
-    theta = pi/2+(i-Ncurve-ceil(Nstraight/2)-1)*dtheta;
+for i = Ncurve+ceil(Nstraightrace/1)+1:Ncurve+ceil(Nstraightrace/1)+ceil(Ncurve/2),
+    theta = pi/2+(i-Ncurve-ceil(Nstraightrace/1)-1)*dtheta;
     yin = centery+R2*sin(theta);
     xin = centerx1+R2*cos(theta);
     plot(xin,yin,'b')
     fprintf(vertex_fid, '%1.16e %1.16e\n', xin, yin);
 end
 
-for i = Ncurve+ceil(Nstraight/2)+ceil(Ncurve/2)+1:2*Ncurve+ceil(Nstraight/2),
-    theta = pi/2+(i-Ncurve-ceil(Nstraight/2)-ceil(Ncurve/2)-1)*dtheta;
+for i = Ncurve+ceil(Nstraightrace/1)+ceil(Ncurve/2)+1:2*Ncurve+ceil(Nstraightrace/1),
+    theta = pi/2+(i-Ncurve-ceil(Nstraightrace/1)-ceil(Ncurve/2)-1)*dtheta;
     yout = centery+R1*sin(theta);
     xout = centerx1+R1*cos(theta);
     plot(xout,yout,'b')
@@ -168,44 +169,44 @@ vertex_fid = fopen([mesh_name 'peri_' num2str(N) '.vertex'], 'w');
 fprintf(vertex_fid, '%d\n', Nperitot);
 
 % make the top and bottom of the pericardium
-for i=1:ceil(Nstraight/4),
+for i=1:ceil(Nstraightrace/2),
     ytop = centery-(R2-(Dp-diameter)/2);
     xtop = -Lt/2+i*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
     plot(xtop,ytop)
 end
 
-for i=ceil(Nstraight/4)+1:ceil(Nstraight/2),
+for i=ceil(Nstraightrace/2)+1:ceil(Nstraightrace/1),
     ybot = centery-R1-(Dp-diameter)/2;
-    xbot = Lt/2-(i-ceil(Nstraight/4)-1)*ds;
+    xbot = Lt/2-(i-ceil(Nstraightrace/2)-1)*ds;
     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
     plot(xbot,ybot)
 end
 
 % make the four side pieces
-for i=ceil(Nstraight/2)+1:ceil(Nstraight/2)+ceil(Nperi/4),
-    y = centery-(R1+(Dp-diameter)/2)+(i-ceil(Nstraight/2)-1)*ds;
+for i=ceil(Nstraightrace/1)+1:ceil(Nstraightrace/1)+ceil(Nperi/4),
+    y = centery-(R1+(Dp-diameter)/2)+(i-ceil(Nstraightrace/1)-1)*ds;
     x = -Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
     plot(x,y,'r')
 end
 
-for i=ceil(Nstraight/2)+ceil(Nperi/4)+1:ceil(Nstraight/2)+ceil(Nperi/2),
-    y = centery-R2+(i-ceil(Nstraight/2)-ceil(Nperi/4)-1)*ds;
+for i=ceil(Nstraightrace/1)+ceil(Nperi/4)+1:ceil(Nstraightrace/1)+ceil(Nperi/2),
+    y = centery-R2+(i-ceil(Nstraightrace/1)-ceil(Nperi/4)-1)*ds;
     x = -Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
     plot(x,y,'b')
 end
 
-for i=ceil(Nstraight/2)+ceil(Nperi/2)+1:ceil(Nstraight/2)+ceil(3*Nperi/4),
-    y = centery-(R1+(Dp-diameter)/2)+(i-ceil(Nstraight/2)-ceil(Nperi/2)-1)*ds;
+for i=ceil(Nstraightrace/1)+ceil(Nperi/2)+1:ceil(Nstraightrace/1)+ceil(3*Nperi/4),
+    y = centery-(R1+(Dp-diameter)/2)+(i-ceil(Nstraightrace/1)-ceil(Nperi/2)-1)*ds;
     x = Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
     plot(x,y,'g')
 end
 
-for i=ceil(Nstraight/2)+ceil(3*Nperi/4)+1:Nperitot,
-    y = centery-R2+(i-ceil(Nstraight/2)-ceil(3*Nperi/4)-1)*ds;
+for i=ceil(Nstraightrace/1)+ceil(3*Nperi/4)+1:Nperitot,
+    y = centery-R2+(i-ceil(Nstraightrace/1)-ceil(3*Nperi/4)-1)*ds;
     x = Lt/2;
     fprintf(vertex_fid, '%1.16e %1.16e\n', x, y);
     plot(x,y,'k')
@@ -217,14 +218,14 @@ fclose(vertex_fid);
 % Write out the spring information for the elastic section
 
 spring_fid = fopen([mesh_name 'tube_' num2str(N) '.spring'], 'w');
-fprintf(spring_fid, '%d\n', Nstraight-4);
+fprintf(spring_fid, '%d\n', Nstraighttube-4);
 
 %elastic part of tube
-for i = 0:ceil(Nstraight/2)-2,
+for i = 0:ceil(Nstraighttube/2)-2,
     fprintf(spring_fid, '%d %d %1.16e %1.16e\n', i, i+1, kappa_spring*ds2/(ds2^2), ds2);
 end
 
-for i = ceil(Nstraight/2):Nstraight-2,
+for i = ceil(Nstraighttube/2):Nstraighttube-2,
     fprintf(spring_fid, '%d %d %1.16e %1.16e\n', i, i+1, kappa_spring*ds2/(ds2^2), ds2);
 end
 
@@ -236,14 +237,14 @@ fclose(spring_fid);
 % % Write out the beam information for the elastic section
 
 beam_fid = fopen([mesh_name 'tube_' num2str(N) '.beam'], 'w');
-fprintf(beam_fid, '%d\n', Nstraight-4);
+fprintf(beam_fid, '%d\n', Nstraighttube-4);
 
 %elastic part of tube
-for i = 0:ceil(Nstraight/2)-3,
+for i = 0:ceil(Nstraighttube/2)-3,
     fprintf(beam_fid, '%d %d %d %1.16e\n', i, i+1, i+2, kappa_beam*ds2/(ds2^4));
 end
 
-for i = ceil(Nstraight/2):ceil(Nstraight/2)-3,
+for i = ceil(Nstraighttube/2):ceil(Nstraighttube/1)-3,
     fprintf(beam_fid, '%d %d %d %1.16e\n', i, i+1, i+2, kappa_beam*ds2/(ds2^4));
 end
 fclose(beam_fid);
@@ -254,15 +255,15 @@ fclose(beam_fid);
 % Write out the target point information for the ends of the elastic tube
 target_fid = fopen([mesh_name 'tube_' num2str(N) '.target'], 'w');
 
-fprintf(target_fid, '%d\n', Nstraight); 
+fprintf(target_fid, '%d\n', Nstraighttube); 
 
 
-2*Nstraight
-for i = 0:ceil(Nstraight/2)-1,   
+
+for i = 0:ceil(Nstraighttube/2)-1,   
     fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds2/(ds2^2));
 end
 
-for i = ceil(Nstraight/2):Nstraight-1,   
+for i = ceil(Nstraighttube/2):Nstraighttube-1,   
     fprintf(target_fid, '%d %1.16e\n', i, kappa_target*ds2/(ds2^2));
 end
 
