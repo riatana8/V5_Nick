@@ -15,10 +15,10 @@ void update_target_point_positions(
     static const double pi = 4*atan(1);	
 	
 	double spring_hard = 10.0;	  // spring stiffness for the gaussian wave
-	double spring_soft = 0.01;	  // spring stiffness for the rest of the tube
+	double spring_soft = 0.001;	  // spring stiffness for the rest of the tube
 	
 	//Info for Peristaltic Region stuff
-	static const int numPts = 629;//Number of Points in Bottom of Tube, changed from 155 4/20
+	static const int numPts = 569;//Number of Points in Bottom of Tube, changed from 155 4/20
 	// is this the number of points period or points that move for peristalsis?
 	static double X[numPts];	  //Stores X-Values for Bottom of Tube
 	static double yOut_1[numPts]; //Stores Y-Values for OUTER Region in PHASE 1
@@ -69,16 +69,16 @@ void update_target_point_positions(
 	
 	
 	int nO_1st = 0;      //First Pt. of Peristaltic Region on OUTER
-	int nO_2nd = 628;  //Last Pt. of Peristaltic Region on OUTER
-	int nI_1st = 629;   //First Pt. of Peristaltic Region on INNER
-	int nI_2nd = 1257; //Last Pt. of Peristaltic Region on INNER
+	int nO_2nd = 568;  //Last Pt. of Peristaltic Region on OUTER
+	int nI_1st = 569;   //First Pt. of Peristaltic Region on INNER
+	int nI_2nd = 1137; //Last Pt. of Peristaltic Region on INNER
 	int ppm = 4096;		//Number of points per meter (1/ds2 in generate mesh)
 	//Need to check these. Note: V5 heart tube vertex files write inner (top) first, then outer (top). Guessing that there is a region
 	// before and after the peristalsis region of each tube that is 8 points long. length of peristaltic region is 104.
 	//NOTE: -1's are bc counting starts at 0 in arrays in C++ 
 	
-	int p0 = 34;	// Left PT of wave at initial position
-	int p1 = 122;	// Right Pt of wave at initial position
+	int p0 = 31;	// Left PT of wave at initial position
+	int p1 = 121;	// Right Pt of wave at initial position
 	int pC = round((p0+p1)/2);	// Pt closest to center at initial position
 			
 	double x0 = X[p0];		      //Left- position of Wave at INITIAL POSITION, changed from 31 4/20
@@ -102,9 +102,9 @@ void update_target_point_positions(
 	
 	double x;				  //x-Pt specified (rolls over each lag-pt)
 	double w = 0.025;           //Width of Gaussian Wave
-	double A_tilde = 1638400;   //"Fixed" Amplitude for Gaussian Wave
-	double R_o = 0.3;	      //OUTER Radius
-	double R_i = 0.2;        //INNER Radius
+	double A_tilde = 1638400.0*2;   //"Fixed" Amplitude for Gaussian Wave
+	double R_o = 0.2;	      //OUTER Radius
+	double R_i = 0.1;        //INNER Radius
 
     //
     // Find out the Lagrangian index ranges.

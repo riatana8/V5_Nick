@@ -52,9 +52,9 @@ dmy = diameter/(Nmarkersy-1);       %space between markers in y-direction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % material parameters
-kappa_spring = 1.0;               % spring constant (Newton)
+kappa_spring = 25.0;               % spring constant (Newton)
 kappa_beam = 0.1;                 % beam stiffness constant (Newton m^2) %2.5e-2 works for Wo>=5
-kappa_target = kappa_spring;        % target point penalty spring constant (Newton)
+kappa_target = 2*kappa_spring;        % target point penalty spring constant (Newton)
 Fmag = 4.0e0;                % this is my best guess at a reasonable applied force %4.0e0 works for Wo>=5
 phase = 0;                      %initial phase of the oscillating force, where F=Fmag*phase and phase = (1+sin(2*pi*f*t-pi/2));
 
@@ -67,17 +67,17 @@ vertex_fid = fopen([mesh_name 'tube_' num2str(N) '.vertex'], 'w');
 fprintf(vertex_fid, '%d\n', Nstraighttube);
 figure(1)
 hold on
-%top part
+%bottom part
 for i=1:ceil(Nstraighttube/2),
-    ytop = centery-R2;
+    ytop = centery-R1;
     xtop = -Lt/2+(i-1)*ds2;
     plot(xtop,ytop,'g')
     fprintf(vertex_fid, '%1.16e %1.16e\n', xtop, ytop);
 end
 
-%bottom part
+%top part
 for i=ceil(Nstraighttube/2)+1:Nstraighttube,
-    ybot = centery-R1;
+    ybot = centery-R2;
     xbot = -Lt/2+(i-ceil(Nstraighttube/2)-1)*ds2;
     plot(xbot,ybot,'m')
     fprintf(vertex_fid, '%1.16e %1.16e\n', xbot, ybot);
