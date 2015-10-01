@@ -53,7 +53,7 @@ dmy = diameter/(Nmarkersy-1);       %space between markers in y-direction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % material parameters
 kappa_spring = 25.0;               % spring constant (Newton)
-kappa_beam = 0.1;                 % beam stiffness constant (Newton m^2) %2.5e-2 works for Wo>=5
+kappa_beam = 0.3;                 % beam stiffness constant (Newton m^2) %2.5e-2 works for Wo>=5
 kappa_target = 2*kappa_spring;        % target point penalty spring constant (Newton)
 Fmag = 4.0e0;                % this is my best guess at a reasonable applied force %4.0e0 works for Wo>=5
 phase = 0;                      %initial phase of the oscillating force, where F=Fmag*phase and phase = (1+sin(2*pi*f*t-pi/2));

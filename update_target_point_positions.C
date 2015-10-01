@@ -14,7 +14,7 @@ void update_target_point_positions(
 
     static const double pi = 4*atan(1);	
 	
-	double spring_hard = 10.0;	  // spring stiffness for the gaussian wave
+	double spring_hard = 25.0;	  // spring stiffness for the gaussian wave
 	double spring_soft = 0.001;	  // spring stiffness for the rest of the tube
 	
 	//Info for Peristaltic Region stuff
